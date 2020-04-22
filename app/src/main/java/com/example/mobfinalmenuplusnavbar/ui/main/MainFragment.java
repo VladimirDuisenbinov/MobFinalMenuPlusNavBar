@@ -13,7 +13,6 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import com.example.mobfinalmenuplusnavbar.R;
 import java.util.ArrayList;
-import java.util.Objects;
 
 public class MainFragment extends Fragment {
 
@@ -53,29 +52,17 @@ public class MainFragment extends Fragment {
         cardRecyclerBankNames.add("Kaspi Bank");
         cardRecyclerCashes.add("10 000 T");
 
-        cardRecyclerLogos.add(R.drawable.halyk);
-        cardRecyclerBankNames.add("Halyk Bank");
-        cardRecyclerCashes.add("80 000 T");
+        cardRecyclerLogos.add(R.drawable.eurasian);
+        cardRecyclerBankNames.add("Eurasian Bank");
+        cardRecyclerCashes.add("85 000 T");
 
-        cardRecyclerLogos.add(R.drawable.jusan);
-        cardRecyclerBankNames.add("Jusan Bank");
-        cardRecyclerCashes.add("50 000 T");
+        cardRecyclerLogos.add(R.drawable.sberbank);
+        cardRecyclerBankNames.add("Sberbank");
+        cardRecyclerCashes.add("20 000 T");
 
-        cardRecyclerLogos.add(R.drawable.kaspi);
-        cardRecyclerBankNames.add("Kaspi Bank");
-        cardRecyclerCashes.add("10 000 T");
-
-        cardRecyclerLogos.add(R.drawable.halyk);
-        cardRecyclerBankNames.add("Halyk Bank");
-        cardRecyclerCashes.add("80 000 T");
-
-        cardRecyclerLogos.add(R.drawable.jusan);
-        cardRecyclerBankNames.add("Jusan Bank");
-        cardRecyclerCashes.add("50 000 T");
-
-        cardRecyclerLogos.add(R.drawable.kaspi);
-        cardRecyclerBankNames.add("Kaspi Bank");
-        cardRecyclerCashes.add("10 000 T");
+        cardRecyclerLogos.add(R.drawable.qazkom);
+        cardRecyclerBankNames.add("Qazkommertsbank");
+        cardRecyclerCashes.add("145 000 T");
 
         initRecyclerView();
     }
@@ -84,8 +71,9 @@ public class MainFragment extends Fragment {
     public void initRecyclerView() {
         Log.d(TAG, "initRecyclerView");
         RecyclerView recyclerView = requireView().findViewById(R.id.cardRecyclerView);
-        RecyclerViewAdapter recyclerViewAdapter = new RecyclerViewAdapter(this.getContext(), cardRecyclerLogos, cardRecyclerBankNames, cardRecyclerCashes);
-        recyclerView.setAdapter(recyclerViewAdapter);
+        recyclerView.setNestedScrollingEnabled(false);
+        RecyclerMainViewAdapter recyclerMainViewAdapter = new RecyclerMainViewAdapter(this.getContext(), cardRecyclerLogos, cardRecyclerBankNames, cardRecyclerCashes);
+        recyclerView.setAdapter(recyclerMainViewAdapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(this.getContext()));
 
     }

@@ -8,13 +8,13 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
-import android.widget.Toast;
+
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 import com.example.mobfinalmenuplusnavbar.R;
 import java.util.ArrayList;
 
-public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapter.ViewHolder> {
+public class RecyclerMainViewAdapter extends RecyclerView.Adapter<RecyclerMainViewAdapter.ViewHolder> {
 
     private static final String TAG = "RecyclerViewAdapter";
     private ArrayList<Integer> cardRecyclerLogos = new ArrayList<>();
@@ -22,7 +22,7 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
     private ArrayList<String> cardRecyclerCashes = new ArrayList<>();
     private Context cardRecyclerContext;
 
-    public RecyclerViewAdapter(Context cardRecyclerContext, ArrayList<Integer> cardRecyclerLogos, ArrayList<String> cardRecyclerBankNames, ArrayList<String> cardRecyclerCashes) {
+    public RecyclerMainViewAdapter(Context cardRecyclerContext, ArrayList<Integer> cardRecyclerLogos, ArrayList<String> cardRecyclerBankNames, ArrayList<String> cardRecyclerCashes) {
         this.cardRecyclerContext = cardRecyclerContext;
         this.cardRecyclerLogos = cardRecyclerLogos;
         this.cardRecyclerBankNames = cardRecyclerBankNames;

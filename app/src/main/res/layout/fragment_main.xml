@@ -8,10 +8,105 @@
     tools:context=".ui.main.MainFragment"
     >
 
-    <androidx.recyclerview.widget.RecyclerView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:id="@+id/cardRecyclerView">
-    </androidx.recyclerview.widget.RecyclerView>
+    <ScrollView
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent">
+
+        <RelativeLayout
+            android:id="@+id/mainRelativeLayout"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content">
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/cardRecyclerView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+            </androidx.recyclerview.widget.RecyclerView>
+
+            <RelativeLayout
+                android:id="@+id/secondMainSubLayout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="10dp"
+                android:layout_below="@id/cardRecyclerView">
+
+                <RelativeLayout
+                    android:id="@+id/expendituresLayout"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:padding="10dp"
+                    android:background="@drawable/background_card">
+
+                    <RelativeLayout
+                        android:id="@+id/mandatoryExpendituresLayout"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:background="@drawable/background_mandatory_expenditures">
+
+                        <TextView
+                            android:id="@+id/expenditureMandatoryTitle"
+                            android:text="Mandatory Expenditures"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:layout_marginTop="10dp"
+                            android:gravity="center"
+                            android:textColor="#FFFFFF"
+                            android:textSize="20sp"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintStart_toStartOf="parent" />
+
+                        <TextView
+                            android:id="@+id/expenditureMandatoryCategoryAndValue"
+                            android:text="Apartment: 25 000T\nElectricity: 10 000T\nWater: 10 000T"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:layout_below="@+id/expenditureMandatoryTitle"
+                            android:paddingBottom="10dp"
+                            android:gravity="center"
+                            android:textColor="#FFFFFF"
+                            android:textSize="15sp" />
+
+                    </RelativeLayout>
+
+                    <RelativeLayout
+                    android:id="@+id/nonMandatoryExpendituresLayout"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/mandatoryExpendituresLayout"
+                    android:layout_marginTop="10dp"
+                    android:background="@drawable/background_non_mandatory_expenditures">
+
+                    <TextView
+                        android:id="@+id/expenditureNonMandatoryTitle"
+                        android:text="Non-Mandatory Expenditures"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_marginTop="10dp"
+                        android:gravity="center"
+                        android:textColor="#000000"
+                        android:textSize="20sp"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent" />
+
+                    <TextView
+                        android:id="@+id/expenditureNonMandatoryCategoryAndValue"
+                        android:text="Food: 10 000T\nSport: 25 000T\nEducation:10 000T"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_below="@+id/expenditureNonMandatoryTitle"
+                        android:paddingBottom="10dp"
+                        android:gravity="center"
+                        android:textColor="#000000"
+                        android:textSize="15sp" />
+
+                    </RelativeLayout>
+
+                </RelativeLayout>
+
+            </RelativeLayout>
+
+        </RelativeLayout>
+
+    </ScrollView>
 
 </RelativeLayout>

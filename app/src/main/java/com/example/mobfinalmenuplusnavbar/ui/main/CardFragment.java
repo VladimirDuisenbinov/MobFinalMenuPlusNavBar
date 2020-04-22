@@ -18,6 +18,4 @@ public class CardFragment extends Fragment {
         // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_main_card, container, false);
     }
-
-
 }
