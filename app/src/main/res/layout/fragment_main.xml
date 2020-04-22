@@ -37,10 +37,24 @@
                     android:padding="10dp"
                     android:background="@drawable/background_card">
 
+                    <TextView
+                        android:id="@+id/expendituresDateTextview"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="This Month"
+                        android:layout_alignParentEnd="true"
+                        android:textColor="#000000"
+                        android:paddingBottom="10dp"
+                        android:layout_marginRight="2dp"
+                        android:textSize="12sp"
+                        android:layout_alignParentRight="true">
+                    </TextView>
+
                     <RelativeLayout
                         android:id="@+id/mandatoryExpendituresLayout"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:layout_below="@+id/expendituresDateTextview"
                         android:background="@drawable/background_mandatory_expenditures">
 
                         <TextView
@@ -57,12 +71,13 @@
 
                         <TextView
                             android:id="@+id/expenditureMandatoryCategoryAndValue"
-                            android:text="Apartment: 25 000T\nElectricity: 10 000T\nWater: 10 000T"
                             android:layout_width="match_parent"
-                            android:layout_height="match_parent"
+                            android:layout_height="wrap_content"
                             android:layout_below="@+id/expenditureMandatoryTitle"
-                            android:paddingBottom="10dp"
+                            android:layout_marginTop="0dp"
                             android:gravity="center"
+                            android:paddingBottom="10dp"
+                            android:text="Apartment: 25 000T\nElectricity: 10 000T\nWater: 10 000T"
                             android:textColor="#FFFFFF"
                             android:textSize="15sp" />
 

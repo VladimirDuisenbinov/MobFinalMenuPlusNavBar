@@ -1,4 +1,4 @@
-package com.example.mobfinalmenuplusnavbar.ui.main;
+package com.example.mobfinalmenuplusnavbar.ui.history;
 
 import android.content.Context;
 import android.util.Log;
@@ -11,18 +11,20 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
+
 import com.example.mobfinalmenuplusnavbar.R;
+
 import java.util.ArrayList;
 
-public class RecyclerMainViewAdapter extends RecyclerView.Adapter<RecyclerMainViewAdapter.ViewHolder> {
+public class RecyclerHistoryViewAdapter extends RecyclerView.Adapter<RecyclerHistoryViewAdapter.ViewHolder>{
 
-    private static final String TAG = "RecyclerViewAdapter";
+    private static final String TAG = "RecyclerHistoryAdapter";
     private ArrayList<Integer> cardRecyclerLogos = new ArrayList<>();
     private ArrayList<String> cardRecyclerBankNames = new ArrayList<>();
     private ArrayList<String> cardRecyclerCashes = new ArrayList<>();
     private Context cardRecyclerContext;
 
-    public RecyclerMainViewAdapter(Context cardRecyclerContext, ArrayList<Integer> cardRecyclerLogos, ArrayList<String> cardRecyclerBankNames, ArrayList<String> cardRecyclerCashes) {
+    public RecyclerHistoryViewAdapter(Context cardRecyclerContext, ArrayList<Integer> cardRecyclerLogos, ArrayList<String> cardRecyclerBankNames, ArrayList<String> cardRecyclerCashes) {
         this.cardRecyclerContext = cardRecyclerContext;
         this.cardRecyclerLogos = cardRecyclerLogos;
         this.cardRecyclerBankNames = cardRecyclerBankNames;
@@ -32,7 +34,7 @@ public class RecyclerMainViewAdapter extends RecyclerView.Adapter<RecyclerMainVi
     @NonNull
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.fragment_main_card, parent, false);
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.fragment_history_card, parent, false);
 
         return new ViewHolder(view);
     }
@@ -45,22 +47,27 @@ public class RecyclerMainViewAdapter extends RecyclerView.Adapter<RecyclerMainVi
         holder.cardRecyclerBankName.setText(cardRecyclerBankNames.get(position));
         holder.cardRecyclerCash.setText(cardRecyclerCashes.get(position));
 
+        if (cardRecyclerCashes.get(position).contains("+")) {
+            holder.cardRecyclerCash.setTextColor(0x9944DE46);
+        } else if (cardRecyclerCashes.get(position).contains("-")) {
+            holder.cardRecyclerCash.setTextColor(0xBBFF0000);
+        }
+
+
         holder.cardRecyclerLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Log.d(TAG, "onClick: clicked on: " + cardRecyclerBankNames.get(position));
+                Log.d(TAG, "onClick: clicked on: " + cardRecyclerCashes.get(position).contains("+"));
             }
         });
-
     }
 
     @Override
     public int getItemCount() {
-        return cardRecyclerBankNames.size();
+        return cardRecyclerCashes.size();
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {
-
         RelativeLayout cardRecyclerLayout;
         ImageView cardRecyclerLogo;
         TextView cardRecyclerBankName;
@@ -69,10 +76,10 @@ public class RecyclerMainViewAdapter extends RecyclerView.Adapter<RecyclerMainVi
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
 
-            cardRecyclerLayout = itemView.findViewById(R.id.cardRecyclerLayout);
-            cardRecyclerLogo = itemView.findViewById(R.id.cardRecyclerLogo);
-            cardRecyclerBankName = itemView.findViewById(R.id.cardRecyclerBankName);
-            cardRecyclerCash = itemView.findViewById(R.id.cardRecyclerCash);
+            cardRecyclerLayout = itemView.findViewById(R.id.cardHistoryRecyclerLayout);
+            cardRecyclerLogo = itemView.findViewById(R.id.cardHistoryRecyclerLogo);
+            cardRecyclerBankName = itemView.findViewById(R.id.cardHistoryRecyclerBankName);
+            cardRecyclerCash = itemView.findViewById(R.id.cardHistoryRecyclerCash);
         }
     }
 

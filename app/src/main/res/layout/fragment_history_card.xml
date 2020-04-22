@@ -3,7 +3,7 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/cardRecyclerLayout"
+    android:id="@+id/cardHistoryRecyclerLayout"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:paddingStart="10dp"
@@ -16,8 +16,9 @@
         android:layout_height="80dp"
         android:background="@drawable/background_card"
         >
+
         <ImageView
-            android:id="@+id/cardRecyclerLogo"
+            android:id="@+id/cardHistoryRecyclerLogo"
             android:layout_width="60dp"
             android:layout_height="60dp"
             android:layout_margin="10dp"
@@ -27,8 +28,19 @@
             android:src="@mipmap/ic_launcher"/>
 
         <TextView
-            android:id="@+id/cardRecyclerBankName"
-            android:text="Kaspi"
+            android:id="@+id/cardHistoryRecyclerCash"
+            android:text="Salary: +10 000 T"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="20sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"/>
+
+        <TextView
+            android:id="@+id/cardHistoryRecyclerBankName"
+            android:text="Record Title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             app:layout_constraintEnd_toEndOf="parent"
@@ -37,18 +49,6 @@
             android:layout_margin="10dp"
             android:textSize="12sp"
             />
-        
-        <TextView
-            android:id="@+id/cardRecyclerCash"
-            android:text="80000 tenge"
-            android:textColor="#000000"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textSize="20sp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintBottom_toBottomOf="parent"/>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
