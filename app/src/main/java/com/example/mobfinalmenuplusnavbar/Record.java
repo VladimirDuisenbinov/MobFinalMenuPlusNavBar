@@ -1,6 +1,11 @@
 package com.example.mobfinalmenuplusnavbar;
 
+import android.content.ContentValues;
+import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class Record {
     public static final String TABLE_NAME = "RECORDS";
@@ -13,15 +18,22 @@ public class Record {
     public static final String MANDATORY_COLUMN = "MANDATORY";
     public static final String SUBJECT_COLUMN = "SUBJECT";
     public static final String DATE_COLUMN = "DATE";
+
+    public static final String TITLE_DEFAULT = "";
+    public static final String DESCRIPTION_DEFAULT = "";
+    public static final int MANDATORY_DEFAULT = 1;
+    public static final String SUBJECT_DEFAULT = "";
+
+
     private static final String CREATE_TABLE_SCRIPT = "CREATE TABLE " + TABLE_NAME + " ("
             + ID_COLUMN + " INTEGER PRIMARY KEY AUTOINCREMENT, "
-            + TITLE_COLUMN + " TEXT NOT NULL, "
-            + AMOUNT_COLUMN + " REAL NOT NULL, "
-            + DESCRIPTION_COLUMN + " TEXT DEFAULT \"\" NOT NULL, "
+            + TITLE_COLUMN + " TEXT DEFAULT \"" + TITLE_DEFAULT + "\" NOT NULL, "
+            + AMOUNT_COLUMN + " REAL DEFAULT 0 NOT NULL, "
+            + DESCRIPTION_COLUMN + " TEXT DEFAULT \"" + DESCRIPTION_DEFAULT + "\" NOT NULL, "
             + CATEGORY_ID_COLUMN + " INTEGER NOT NULL, "
             + ACCOUNT_ID_COLUMN + " INTEGER NOT NULL, "
-            + MANDATORY_COLUMN + " INTEGER DEFAULT 1 NOT NULL, "
-            + SUBJECT_COLUMN + " TEXT DEFAULT \"\" NOT NULL, "
+            + MANDATORY_COLUMN + " INTEGER DEFAULT " + MANDATORY_DEFAULT + " NOT NULL, "
+            + SUBJECT_COLUMN + " TEXT DEFAULT \"" + SUBJECT_DEFAULT + "\" NOT NULL, "
             + DATE_COLUMN + " TEXT NOT NULL, "
             + "FOREIGN KEY(" + CATEGORY_ID_COLUMN + ") REFERENCES "
             + Category.TABLE_NAME + "(" + Category.ID_COLUMN + "), "
@@ -30,11 +42,11 @@ public class Record {
 
     private long id;
     private String title;
-    private Double amount;
+    private double amount;
     private String description;
-    private Integer category_id;
-    private Integer account_id;
-    private Integer mandatory;
+    private long category_id;
+    private long account_id;
+    private int mandatory; // 1/0
     private String subject;
     private String date;
 
@@ -42,12 +54,36 @@ public class Record {
         db.execSQL(CREATE_TABLE_SCRIPT);
     }
 
+    public Record(){
+        this.id = -1;
+        this.title = TITLE_DEFAULT;
+        this.amount = 0.0;
+        this.description = DESCRIPTION_DEFAULT;
+        this.category_id = -1;
+        this.account_id = -1;
+        this.mandatory = MANDATORY_DEFAULT;
+        this.subject = SUBJECT_DEFAULT;
+        this.date = DBHelper.now();
+    }
+
+    public Record(long id){
+        this.id = id;
+        this.title = TITLE_DEFAULT;
+        this.amount = 0.0;
+        this.description = DESCRIPTION_DEFAULT;
+        this.category_id = -1;
+        this.account_id = -1;
+        this.mandatory = MANDATORY_DEFAULT;
+        this.subject = SUBJECT_DEFAULT;
+        this.date = DBHelper.now();
+    }
+
     public Record(String title,
                   Double amount,
                   String description,
-                  Integer category_id,
-                  Integer account_id,
-                  Integer mandatory,
+                  long category_id,
+                  long account_id,
+                  int mandatory,
                   String subject,
                   String date
     ) {
@@ -66,9 +102,9 @@ public class Record {
                   String title,
                   Double amount,
                   String description,
-                  Integer category_id,
-                  Integer account_id,
-                  Integer mandatory,
+                  long category_id,
+                  long account_id,
+                  int mandatory,
                   String subject,
                   String date
     ) {
@@ -83,16 +119,101 @@ public class Record {
         this.date = date;
     }
 
+    public Record get(long id){
+        List<Record> res = filter("_id = ?", new String[]{String.valueOf(id)});
+        if (res.size() == 0) { return null; }
+        return res.get(0);
+    }
+
+    public List<Record> filter(String whereClause, String[] whereArgs){
+        Cursor cursor = DBHelper.db.query(
+                TABLE_NAME,
+                new String[]{
+                        ID_COLUMN,
+                        TITLE_COLUMN,
+                        AMOUNT_COLUMN,
+                        DESCRIPTION_COLUMN,
+                        CATEGORY_ID_COLUMN,
+                        ACCOUNT_ID_COLUMN,
+                        MANDATORY_COLUMN,
+                        SUBJECT_COLUMN,
+                        DATE_COLUMN
+                },
+                whereClause, whereArgs,
+                null, null, DATE_COLUMN
+        );
+        List<Record> res = new ArrayList<>();
+        while (cursor.moveToNext()){
+            long id = cursor.getInt(0);
+            String title = cursor.getString(1);
+            Double amount = cursor.getDouble(2);
+            String description = cursor.getString(3);
+            long category_id = cursor.getLong(4);
+            long account_id = cursor.getLong(5);
+            int mandatory = cursor.getInt(6);
+            String subject = cursor.getString(7);
+            String date = cursor.getString(8);
+            Record item = new Record(
+                    id,
+                    title,
+                    amount,
+                    description,
+                    category_id,
+                    account_id,
+                    mandatory,
+                    subject,
+                    date
+            );
+            res.add(item);
+        }
+        cursor.close();
+        return res;
+    }
+
+    public void validate() throws DBValidateDataException {
+        if ( title == null || title.equals("")){
+            throw new DBValidateDataException("Title cannot be empty");
+        }
+        if (description == null){ description = DESCRIPTION_DEFAULT; }
+        if (Category.get(category_id) == null){
+            throw new DBValidateDataException("Category not found");
+        }
+        if (Account.get(account_id) == null){
+            throw new DBValidateDataException("Account not found");
+        }
+        if (mandatory < 0) { mandatory = 0; }
+        if (mandatory > 1) { mandatory = 1; }
+        if (subject == null) {
+            subject = SUBJECT_DEFAULT;
+        }
+        if (date == null || date.equals("")) {
+            date = DBHelper.now();
+        }
+    }
+
+    public void save() throws DBValidateDataException{
+        this.validate();
+        ContentValues values = new ContentValues();
+        values.put(TITLE_COLUMN, title);
+        values.put(AMOUNT_COLUMN, amount);
+        values.put(DESCRIPTION_COLUMN, description);
+        values.put(CATEGORY_ID_COLUMN, category_id);
+        values.put(ACCOUNT_ID_COLUMN, account_id);
+        values.put(MANDATORY_COLUMN, mandatory);
+        values.put(SUBJECT_COLUMN, subject);
+        values.put(DATE_COLUMN, date);
+        long res = DBHelper.save_item(TABLE_NAME, id, values);
+        if (this.id < 0) {
+            this.id = res;
+        }
+    }
+
     public static String getCreateTableScript() {
         return CREATE_TABLE_SCRIPT;
     }
 
     public long getId() {
         return id;
-    }
-
-    public void setId(long id) {
-        this.id = id;
     }
 
     public String getTitle() {
@@ -103,11 +224,11 @@ public class Record {
         this.title = title;
     }
 
-    public Double getAmount() {
+    public double getAmount() {
         return amount;
     }
 
-    public void setAmount(Double amount) {
+    public void setAmount(double amount) {
         this.amount = amount;
     }
 
@@ -119,27 +240,27 @@ public class Record {
         this.description = description;
     }
 
-    public Integer getCategory_id() {
+    public long getCategory_id() {
         return category_id;
     }
 
-    public void setCategory_id(Integer category_id) {
+    public void setCategory_id(long category_id) {
         this.category_id = category_id;
     }
 
-    public Integer getAccount_id() {
+    public long getAccount_id() {
         return account_id;
     }
 
-    public void setAccount_id(Integer account_id) {
+    public void setAccount_id(long account_id) {
         this.account_id = account_id;
     }
 
-    public Integer getMandatory() {
+    public int getMandatory() {
         return mandatory;
     }
 
-    public void setMandatory(Integer mandatory) {
+    public void setMandatory(int mandatory) {
         this.mandatory = mandatory;
     }
 

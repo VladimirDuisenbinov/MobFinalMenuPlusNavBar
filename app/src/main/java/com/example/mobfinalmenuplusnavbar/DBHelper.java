@@ -6,12 +6,19 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
+import java.util.Locale;
+import java.util.TimeZone;
 
 
 public class DBHelper extends SQLiteOpenHelper {
     static public String EX_DB = "QISAP";
+    static public String DATE_FORMAT = "yy/MM/dd HH:mm:ss";
 
     static public int DBVER = 1;
     static public DBHelper singleton = null;
@@ -35,16 +42,16 @@ public class DBHelper extends SQLiteOpenHelper {
 
     }
 
-    static String join(String dilimeter, List<String> tokens){
+    public static String join(String delimiter, List<String> tokens){
         if (tokens.size() == 0) return "";
         StringBuilder string_tokens = new StringBuilder(tokens.get(0));
         for (int i=1; i<tokens.size(); i++){
-            string_tokens.append(dilimeter).append(tokens.get(i));
+            string_tokens.append(delimiter).append(tokens.get(i));
         }
         return string_tokens.toString();
     }
 
-    static void save_item(String table_name, Integer id, List<String> value_names, List<String> values){
+    public static void save_item(String table_name, Integer id, List<String> value_names, List<String> values){
         if (id >= 0){
             List<String> kvpairs = new ArrayList<>();
             for (int i=0; i<value_names.size(); i++){
@@ -62,7 +69,7 @@ public class DBHelper extends SQLiteOpenHelper {
         }
     }
 
-    static long save_item(String table_name, long id, ContentValues values){
+    public static long save_item(String table_name, long id, ContentValues values){
         if (id >= 0){
 //            update
             db.update(table_name, values, "_id = ?" , new String[]{String.valueOf(id)});
@@ -71,6 +78,12 @@ public class DBHelper extends SQLiteOpenHelper {
 //            insert
             return db.insertOrThrow(table_name, null, values);
         }
+    }
+
+    public static String now(){
+        DateFormat df = new SimpleDateFormat("dd/MM/yy HH:mm:ss'Z'", Locale.US);
+        Calendar calobj = Calendar.getInstance();
+        return df.format(calobj.getTime());
     }
 }
 

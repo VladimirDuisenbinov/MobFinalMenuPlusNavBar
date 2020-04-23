@@ -17,11 +17,15 @@ public class Category {
     public final static String NAME_COLUMN = "NAME";
     public final static String DESCRIPTION_COLUMN = "DESCRIPTION";
     public final static String ICON_COLUMN = "ICON";
+
+    public static final String DESCRIPTION_DEFAULT = "";
+    private final static int ICON_DEFAULT = R.drawable.record_base_icon;
+
     private final static String CREATE_TABLE_SCRIPT = "CREATE TABLE " + TABLE_NAME + " ("
             + ID_COLUMN + " INTEGER PRIMARY KEY AUTOINCREMENT, "
             + NAME_COLUMN + " TEXT UNIQUE NOT NULL, "
-            + DESCRIPTION_COLUMN + " TEXT DEFAULT \"\" NOT NULL,"
-            + ICON_COLUMN + " INTEGER DEFAULT " + R.drawable.record_base_icon + " NOT NULL);";
+            + DESCRIPTION_COLUMN + " TEXT DEFAULT \"" + DESCRIPTION_DEFAULT + "\" NOT NULL,"
+            + ICON_COLUMN + " INTEGER DEFAULT " + ICON_DEFAULT + " NOT NULL);";
     private final static List<Category> BASE_ITEMS = Arrays.asList(
             new Category("General", null, 0),
             new Category("Debt", null, R.drawable.category_debt_icon));
@@ -49,6 +53,19 @@ public class Category {
 
         }
     }
+    public Category(){
+        this.id = -1;
+        this.name = "";
+        this.description = DESCRIPTION_DEFAULT;
+        this.icon = ICON_DEFAULT;
+    }
+
+    public Category(int id){
+        this.id = id;
+        this.name = "";
+        this.description = DESCRIPTION_DEFAULT;
+        this.icon = ICON_DEFAULT;
+    }
 
     public Category(String name, String description, int icon){
         this.id = -1;
@@ -62,6 +79,18 @@ public class Category {
         this.name = name;
         this.description = description;
         this.icon = icon;
+    }
+
+    public static Category get(long id){
+        List<Category> res = filter("_id = ?", new String[]{String.valueOf(id)});
+        if (res.size() == 0) { return null; }
+        return res.get(0);
+    }
+
+    public static Category get(String name){
+        List<Category> res = filter("name = ?", new String[]{name});
+        if (res.size() == 0) { return null; }
+        return res.get(0);
     }
 
     public static List<Category> filter(String whereClause, String[] whereArgs){
@@ -110,9 +139,23 @@ public class Category {
         return res;
     }
 
-    public void save(){
-        //        Some legacy code
+    public void validate() throws DBValidateDataException{
+        if (name == null || name.equals("")){
+            throw DBValidateDataException.cannotBeEmpty(NAME_COLUMN);
+        }
+        if (description == null){ description = DESCRIPTION_DEFAULT; }
+        Category other = Category.get(name);
+        if (other != null && other.id != id){
+            throw DBValidateDataException.alreadyExists(NAME_COLUMN);
+        }
+        if (icon == 0){
+            icon = ICON_DEFAULT;
+        }
+    }
 
+    public void save() throws DBValidateDataException{
+        //        Some legacy code
+        this.validate();
 //        List<String> value_names = new ArrayList<>();
 //        List<String> values = new ArrayList<>();
 
@@ -126,11 +169,10 @@ public class Category {
 //        values.add("\"" + description + "\"");
         values.put(DESCRIPTION_COLUMN, description);
 
-        if (icon != 0){
-//            value_names.add(ICON_COLUMN);
-//            values.add("icon");
-            values.put(ICON_COLUMN, icon);
-        }
+//        value_names.add(ICON_COLUMN);
+//        values.add("icon");
+        values.put(ICON_COLUMN, icon);
+
 //        DBHelper.save_item(TABLE_NAME, id, value_names, values);
         long res = DBHelper.save_item(TABLE_NAME, id, values);
         if (this.id < 0) {
