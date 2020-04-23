@@ -54,6 +54,26 @@ public class Record {
         db.execSQL(CREATE_TABLE_SCRIPT);
     }
 
+    public Record(String title,
+                  Double amount,
+                  String description,
+                  long category_id,
+                  long account_id,
+                  int mandatory,
+                  String subject,
+                  String date
+    ) {
+        this.id = -1;
+        this.title = title;
+        this.amount = amount;
+        this.description = description;
+        this.category_id = category_id;
+        this.account_id = account_id;
+        this.mandatory = mandatory;
+        this.subject = subject;
+        this.date = date;
+    }
+
     public Record(){
         this.id = -1;
         this.title = TITLE_DEFAULT;
@@ -78,26 +98,6 @@ public class Record {
         this.date = DBHelper.now();
     }
 
-    public Record(String title,
-                  Double amount,
-                  String description,
-                  long category_id,
-                  long account_id,
-                  int mandatory,
-                  String subject,
-                  String date
-    ) {
-        this.id = -1;
-        this.title = title;
-        this.amount = amount;
-        this.description = description;
-        this.category_id = category_id;
-        this.account_id = account_id;
-        this.mandatory = mandatory;
-        this.subject = subject;
-        this.date = date;
-    }
-
     public Record(long id,
                   String title,
                   Double amount,
@@ -119,13 +119,13 @@ public class Record {
         this.date = date;
     }
 
-    public Record get(long id){
+    public static Record get(long id){
         List<Record> res = filter("_id = ?", new String[]{String.valueOf(id)});
         if (res.size() == 0) { return null; }
         return res.get(0);
     }
 
-    public List<Record> filter(String whereClause, String[] whereArgs){
+    public static List<Record> filter(String whereClause, String[] whereArgs){
         Cursor cursor = DBHelper.db.query(
                 TABLE_NAME,
                 new String[]{
@@ -278,5 +278,20 @@ public class Record {
 
     public void setDate(String date) {
         this.date = date;
+    }
+
+    @Override
+    public String toString() {
+        return "Record{" +
+                "id=" + id +
+                ", title='" + title + '\'' +
+                ", amount=" + amount +
+                ", description='" + description + '\'' +
+                ", category_id=" + category_id +
+                ", account_id=" + account_id +
+                ", mandatory=" + mandatory +
+                ", subject='" + subject + '\'' +
+                ", date='" + date + '\'' +
+                '}';
     }
 }

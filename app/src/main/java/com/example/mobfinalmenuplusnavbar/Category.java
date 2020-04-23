@@ -53,6 +53,14 @@ public class Category {
 
         }
     }
+
+    public Category(String name, String description, int icon){
+        this.id = -1;
+        this.name = name;
+        this.description = description;
+        this.icon = icon;
+    }
+
     public Category(){
         this.id = -1;
         this.name = "";
@@ -65,13 +73,6 @@ public class Category {
         this.name = "";
         this.description = DESCRIPTION_DEFAULT;
         this.icon = ICON_DEFAULT;
-    }
-
-    public Category(String name, String description, int icon){
-        this.id = -1;
-        this.name = name;
-        this.description = description;
-        this.icon = icon;
     }
 
     public Category(long id, String name, String description, int icon){
@@ -206,5 +207,15 @@ public class Category {
 
     public int getIcon() {
         return icon;
+    }
+
+    @Override
+    public String toString() {
+        return "Category{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", description='" + description + '\'' +
+                ", icon=" + icon +
+                '}';
     }
 }

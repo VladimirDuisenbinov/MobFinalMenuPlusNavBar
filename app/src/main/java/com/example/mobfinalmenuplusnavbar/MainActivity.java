@@ -1,6 +1,8 @@
 package com.example.mobfinalmenuplusnavbar;
 
+import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.Menu;
@@ -30,6 +32,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     private ViewPager2 viewPager2;
     private MenusPagerAdapter adapter;
     private DrawerLayout drawer;
+    private DBHelper dbHelper;
+    private SQLiteDatabase db;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -55,6 +59,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             navigationView.setCheckedItem(R.id.nav_main);
         }
 
+        dbHelper = new DBHelper(this);
+        db = dbHelper.getWritableDatabase();
     }
 
 

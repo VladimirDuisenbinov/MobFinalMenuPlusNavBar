@@ -3,6 +3,7 @@ package com.example.mobfinalmenuplusnavbar;
 import android.content.ContentValues;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.util.Log;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -21,7 +22,7 @@ public class Account{
     private final static String CREATE_TABLE_SCRIPT = "CREATE TABLE " + TABLE_NAME + " ("
             + ID_COLUMN + " INTEGER PRIMARY KEY AUTOINCREMENT,"
             + NAME_COLUMN + " TEXT UNIQUE NOT NULL, "
-            + AMOUNT_COLUMN + " REAL NOT NULL, "
+            + AMOUNT_COLUMN + " REAL DEFAULT 0 NOT NULL, "
             + CURRENCY_COLUMN + " TEXT DEFAULT \"" + CURRENCY_DEFAULT + "\" NOT NULL, "
             + ICON_COLUMN + " INTEGER DEFAULT " + ICON_DEFAULT + " NOT NULL);";
 
@@ -39,6 +40,14 @@ public class Account{
         );
     }
 
+    public Account(String name, double amount, String currency, int icon){
+        this.id = -1;
+        this.name = name;
+        this.amount = amount;
+        this.currency = currency;
+        this.icon = icon;
+    }
+
     public Account(){
         this.id = -1;
         name = "";
@@ -53,14 +62,6 @@ public class Account{
         amount = 0.0;
         currency = CURRENCY_DEFAULT;
         icon = ICON_DEFAULT;
-    }
-
-    public Account(String name, double amount, String currency, int icon){
-        this.id = -1;
-        this.name = name;
-        this.amount = amount;
-        this.currency = currency;
-        this.icon = icon;
     }
 
     public Account(long id, String name, double amount, String currency, int icon) {
@@ -86,7 +87,7 @@ public class Account{
     public static List<Account> filter(String whereClause, String[] whereArgs){
         Cursor cursor = DBHelper.db.query(
                 TABLE_NAME,
-                new String[]{ID_COLUMN, NAME_COLUMN, AMOUNT_COLUMN, CURRENCY_COLUMN},
+                new String[]{ID_COLUMN, NAME_COLUMN, AMOUNT_COLUMN, CURRENCY_COLUMN, ICON_COLUMN},
                 whereClause,
                 whereArgs,
                 null,
@@ -99,7 +100,8 @@ public class Account{
             String name = cursor.getString(1);
             double amount = cursor.getDouble(2);
             String currency = cursor.getString(3);
-            Account item = new Account(id, name, amount, currency, 0);
+            int icon = cursor.getInt(4);
+            Account item = new Account(id, name, amount, currency, icon);
             res.add(item);
         }
         cursor.close();
@@ -202,5 +204,16 @@ public class Account{
 
     public void setCurrency(String currency) {
         this.currency = currency;
+    }
+
+    @Override
+    public String toString() {
+        return "Account{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", amount=" + amount +
+                ", currency='" + currency + '\'' +
+                ", icon=" + icon +
+                '}';
     }
 }
