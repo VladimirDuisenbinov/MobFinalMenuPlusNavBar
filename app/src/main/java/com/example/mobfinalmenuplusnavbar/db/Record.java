@@ -1,8 +1,9 @@
-package com.example.mobfinalmenuplusnavbar;
+package com.example.mobfinalmenuplusnavbar.db;
 
 import android.content.ContentValues;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.util.Pair;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -18,6 +19,7 @@ public class Record {
     public static final String MANDATORY_COLUMN = "MANDATORY";
     public static final String SUBJECT_COLUMN = "SUBJECT";
     public static final String DATE_COLUMN = "DATE";
+    public static final String DEBT_CATEGORY_NAME = Category.DEBT_NAME;
 
     public static final String TITLE_DEFAULT = "";
     public static final String DESCRIPTION_DEFAULT = "";
@@ -123,6 +125,27 @@ public class Record {
         List<Record> res = filter("_id = ?", new String[]{String.valueOf(id)});
         if (res.size() == 0) { return null; }
         return res.get(0);
+    }
+
+    public static List<Pair<String, Double>> getDebts(){
+        Cursor cursor = DBHelper.db.query(
+                TABLE_NAME,
+                new String[]{
+                        SUBJECT_COLUMN,
+                        "SUM(" + AMOUNT_COLUMN + ")"
+                },
+                CATEGORY_ID_COLUMN + " = ?",
+                new String[]{String.valueOf(Category.get(Category.DEBT_NAME).getId())},
+                SUBJECT_COLUMN, null, DATE_COLUMN
+        );
+        List<Pair<String, Double>> res = new ArrayList<>();
+        while (cursor.moveToNext()) {
+            String subject = cursor.getString(0);
+            Double amount = cursor.getDouble(1);
+            res.add(new Pair<String, Double>(subject, amount));
+        }
+        cursor.close();
+        return res;
     }
 
     public static List<Record> filter(String whereClause, String[] whereArgs){

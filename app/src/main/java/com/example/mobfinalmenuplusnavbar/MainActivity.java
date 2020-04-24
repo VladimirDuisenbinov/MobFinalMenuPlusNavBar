@@ -2,26 +2,17 @@ package com.example.mobfinalmenuplusnavbar;
 
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.MenuItem;
-import android.view.View;
-import android.view.Menu;
+
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.core.view.GravityCompat;
 import androidx.viewpager2.widget.ViewPager2;
-import com.example.mobfinalmenuplusnavbar.ui.analytics.AnalyticsFragment;
-import com.example.mobfinalmenuplusnavbar.ui.debts.DebtsFragment;
-import com.example.mobfinalmenuplusnavbar.ui.history.HistoryFragment;
-import com.example.mobfinalmenuplusnavbar.ui.main.MainFragment;
-import com.example.mobfinalmenuplusnavbar.ui.plan.PlanFragment;
-import com.google.android.material.floatingactionbutton.FloatingActionButton;
-import com.google.android.material.snackbar.Snackbar;
+
+import com.example.mobfinalmenuplusnavbar.db.DBHelper;
 import com.google.android.material.navigation.NavigationView;
-import androidx.navigation.NavController;
-import androidx.navigation.Navigation;
+
 import androidx.navigation.ui.AppBarConfiguration;
-import androidx.navigation.ui.NavigationUI;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;

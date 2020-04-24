@@ -1,9 +1,10 @@
-package com.example.mobfinalmenuplusnavbar;
+package com.example.mobfinalmenuplusnavbar.db;
 
 import android.content.ContentValues;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
-import android.util.Log;
+
+import com.example.mobfinalmenuplusnavbar.R;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -108,30 +109,7 @@ public class Account{
         return res;
     }
 
-//    legacy
-    public static List<Account> filter(String where){
-        Cursor cursor = DBHelper.db.rawQuery("SELECT "
-                + ID_COLUMN + ", "
-                + NAME_COLUMN + ", "
-                + AMOUNT_COLUMN + ", "
-                + CURRENCY_COLUMN + " "
-                + "FROM " + TABLE_NAME + " "
-                + where, null
-        );
-        List<Account> res = new ArrayList<>();
-        while (cursor.moveToNext()){
-            long id = cursor.getInt(0);
-            String name = cursor.getString(1);
-            double amount = cursor.getDouble(2);
-            String currency = cursor.getString(3);
-            Account item = new Account(id, name, amount, currency, 0);
-            res.add(item);
-        }
-        cursor.close();
-        return res;
-    }
-
-    public void validate() throws DBValidateDataException{
+    public void validate() throws DBValidateDataException {
         if (name == null || name.equals("")){
             throw DBValidateDataException.cannotBeEmpty(NAME_COLUMN);
         }
@@ -148,30 +126,15 @@ public class Account{
     }
 
     public void save() throws DBValidateDataException{
-//        Some legacy code
         this.validate();
-//        List<String> value_names = new ArrayList<>();
-//        List<String> values = new ArrayList<>();
+
         ContentValues values = new ContentValues();
 
-//        value_names.add(NAME_COLUMN);
-//        values.add("\"" + name + "\"");
         values.put(NAME_COLUMN, name);
-
-//        value_names.add(AMOUNT_COLUMN);
-//        values.add(amount.toString());
         values.put(AMOUNT_COLUMN, amount);
-
-//        value_names.add(CURRENCY_COLUMN);
-//        values.add("\"" + currency + "\"");
         values.put(CURRENCY_COLUMN, currency);
+        values.put(ICON_COLUMN, icon);
 
-        if (icon != 0){
-//            value_names.add(ICON_COLUMN);
-//            values.add("icon");
-            values.put(ICON_COLUMN, icon);
-        }
-//        DBHelper.save_item(TABLE_NAME, id, value_names, values);
         long res = DBHelper.save_item(TABLE_NAME, id, values);
         if (this.id < 0) {
             this.id = res;
