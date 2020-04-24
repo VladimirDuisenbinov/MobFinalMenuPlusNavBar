@@ -9,6 +9,7 @@ import com.example.mobfinalmenuplusnavbar.R;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.concurrent.TransferQueue;
 
 public class Category {
     public final static String TABLE_NAME = "CATEGORIES";
@@ -16,8 +17,10 @@ public class Category {
     public final static String NAME_COLUMN = "NAME";
     public final static String DESCRIPTION_COLUMN = "DESCRIPTION";
     public final static String ICON_COLUMN = "ICON";
+    public final static String GENERAL_NAME = "GENERAL";
     public final static String DEBT_NAME = "Debt";
     public final static String FIX_NAME = "Fix";
+    public final static String TRANSACTION_NAME = "Transaction";
 
     public static final String DESCRIPTION_DEFAULT = "";
     private final static int ICON_DEFAULT = R.drawable.record_base_icon;
@@ -28,9 +31,10 @@ public class Category {
             + DESCRIPTION_COLUMN + " TEXT DEFAULT \"" + DESCRIPTION_DEFAULT + "\" NOT NULL,"
             + ICON_COLUMN + " INTEGER DEFAULT " + ICON_DEFAULT + " NOT NULL);";
     private final static List<Category> BASE_ITEMS = Arrays.asList(
-            new Category("General", null, 0),
+            new Category(GENERAL_NAME, null, 0),
             new Category(DEBT_NAME, null, R.drawable.category_debt_icon),
-            new Category(FIX_NAME, null, R.drawable.category_fix_icon)
+            new Category(FIX_NAME, null, R.drawable.category_fix_icon),
+            new Category(TRANSACTION_NAME, null, R.drawable.category_transaction_icon)
     );
 
     private long id;
@@ -121,7 +125,8 @@ public class Category {
     }
 
     public void validate() throws DBValidateDataException {
-        if (id == get(DEBT_NAME).id || id == get(FIX_NAME).id) {
+        if (id == get(DEBT_NAME).id || id == get(FIX_NAME).id ||
+                id == get(TRANSACTION_NAME).id || id == get(GENERAL_NAME).id) {
             throw new DBValidateDataException("This Category cannot be changed");
         }
         if (name == null || name.equals("")){
