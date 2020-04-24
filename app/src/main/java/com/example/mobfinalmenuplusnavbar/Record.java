@@ -193,6 +193,7 @@ public class Record {
 
     public void save() throws DBValidateDataException{
         this.validate();
+        this.change_account();
         ContentValues values = new ContentValues();
         values.put(TITLE_COLUMN, title);
         values.put(AMOUNT_COLUMN, amount);
@@ -206,6 +207,16 @@ public class Record {
         if (this.id < 0) {
             this.id = res;
         }
+    }
+
+    private void change_account() throws DBValidateDataException {
+        double prev_amount = 0.0;
+        if (id >= 0){
+            prev_amount = get(id).amount;
+        }
+        Account account = Account.get(account_id);
+        account.setAmount(account.getAmount() - amount + prev_amount);
+        account.save();
     }
 
     public static String getCreateTableScript() {

@@ -1,6 +1,5 @@
 Delete button on edit page for Record, Category, Account;
 Delete method in ORMClasses;
-On record save, subtract amount from account;
 Split record;
 Add "fix" category;
 Create fix record when account amount changed;
