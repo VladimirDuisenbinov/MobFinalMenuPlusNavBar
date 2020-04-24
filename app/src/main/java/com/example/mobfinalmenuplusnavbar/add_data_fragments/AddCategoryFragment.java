@@ -13,8 +13,9 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
+import com.example.mobfinalmenuplusnavbar.Category;
+import com.example.mobfinalmenuplusnavbar.DBValidateDataException;
 import com.example.mobfinalmenuplusnavbar.R;
-import com.example.mobfinalmenuplusnavbar.pojo.Category;
 import com.example.mobfinalmenuplusnavbar.pojo.Icon;
 import com.google.android.material.textfield.TextInputLayout;
 
@@ -28,6 +29,11 @@ public class AddCategoryFragment extends Fragment implements View.OnClickListene
     Button btnSubmit;
     Context context;
     ArrayList<Icon> icons;
+    Category updateCategory;
+
+    public AddCategoryFragment(Category updateCategory){
+        this.updateCategory = updateCategory;
+    }
 
     public AddCategoryFragment(){
 
@@ -41,13 +47,22 @@ public class AddCategoryFragment extends Fragment implements View.OnClickListene
         name = view.findViewById(R.id.title_field);
         description = view.findViewById(R.id.description_field);
         spinnerIcons = view.findViewById(R.id.icon_dropdown);
-        btnSubmit = view.findViewById(R.id.btn_submit);
-        btnSubmit.setOnClickListener(this);
-
         icons = Icon.getCategoryIcons();
 
         IconsAdapter adapter = new IconsAdapter(context, icons);
         spinnerIcons.setAdapter(adapter);
+
+        if (updateCategory !=null){
+            name.getEditText().setText(updateCategory.getName());
+            description.getEditText().setText(updateCategory.getDescription());
+            spinnerIcons.setSelection(Icon.getPosition(updateCategory.getIcon()));
+        }
+
+
+        btnSubmit = view.findViewById(R.id.btn_submit);
+        btnSubmit.setOnClickListener(this);
+
+
 
         return view;
     }
@@ -74,8 +89,23 @@ public class AddCategoryFragment extends Fragment implements View.OnClickListene
             Icon icon = (Icon)spinnerIcons.getSelectedItem();
             int i = icon.getId();
 
-            Category category = new Category(n,d,i);
-            //            addCategoryToDb(category);
+            if(updateCategory!=null){
+                updateCategory.setName(n);
+                updateCategory.setDescription(d);
+                updateCategory.setIcon(i);
+                try {
+                    updateCategory.save();
+                } catch (DBValidateDataException e) {
+                    e.printStackTrace();
+                }
+            }else{
+                Category category = new Category(n,d,i);
+                try {
+                    category.save();
+                } catch (DBValidateDataException e) {
+                    e.printStackTrace();
+                }
+            }
             Toast.makeText(context, "Record was added successfully",
                     Toast.LENGTH_SHORT).show();
         }

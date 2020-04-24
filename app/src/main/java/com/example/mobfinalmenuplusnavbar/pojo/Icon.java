@@ -7,14 +7,16 @@ import java.util.ArrayList;
 public class Icon {
     private String name;
     private int id;
+    static ArrayList<Icon> icons;
 
     public Icon(String name, int id){
         this.setName(name);
         this.setId(id);
+        icons = new ArrayList();
     }
 
     public static ArrayList<Icon> getCategoryIcons(){
-        ArrayList<Icon> icons = new ArrayList();
+        icons = new ArrayList();
         icons.add(new Icon("sport_icon", R.drawable.ic_sport));
         icons.add(new Icon("travel_icon", R.drawable.ic_travel));
         icons.add(new Icon("edu_icon", R.drawable.ic_education));
@@ -24,8 +26,18 @@ public class Icon {
         return icons;
     }
 
+    public static int getPosition(int id){
+        for(Icon icon: icons){
+            if (icon.getId() == id){
+                return icons.indexOf(icon);
+            }
+        }
+
+        return -1;
+    }
+
     public static ArrayList<Icon> getAccountIcons(){
-        ArrayList<Icon> icons = new ArrayList();
+        icons = new ArrayList();
         icons.add(new Icon("Eurasian", R.drawable.eurasian));
         icons.add(new Icon("Halyk", R.drawable.halyk));
         icons.add(new Icon("Jysan", R.drawable.jusan));
