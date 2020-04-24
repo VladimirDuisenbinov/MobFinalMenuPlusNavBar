@@ -3,6 +3,7 @@ package com.example.mobfinalmenuplusnavbar;
 import android.content.ContentValues;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.util.Log;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -14,16 +15,20 @@ public class Account{
     public final static String AMOUNT_COLUMN = "AMOUNT";
     public final static String CURRENCY_COLUMN = "CURRENCY";
     public final static String ICON_COLUMN = "ICON";
+
+    private final static String CURRENCY_DEFAULT = "KZT";
+    private final static int ICON_DEFAULT = R.drawable.account_base_icon;
+
     private final static String CREATE_TABLE_SCRIPT = "CREATE TABLE " + TABLE_NAME + " ("
             + ID_COLUMN + " INTEGER PRIMARY KEY AUTOINCREMENT,"
             + NAME_COLUMN + " TEXT UNIQUE NOT NULL, "
-            + AMOUNT_COLUMN + " REAL NOT NULL, "
-            + CURRENCY_COLUMN + " TEXT DEFAULT \"KZT\" NOT NULL, "
-            + ICON_COLUMN + " INTEGER DEFAULT " + R.drawable.account_base_icon + " NOT NULL);";
+            + AMOUNT_COLUMN + " REAL DEFAULT 0 NOT NULL, "
+            + CURRENCY_COLUMN + " TEXT DEFAULT \"" + CURRENCY_DEFAULT + "\" NOT NULL, "
+            + ICON_COLUMN + " INTEGER DEFAULT " + ICON_DEFAULT + " NOT NULL);";
 
     private long id;
     private String name;
-    private Double amount;
+    private double amount;
     private String currency;
     private int icon;
 
@@ -35,7 +40,7 @@ public class Account{
         );
     }
 
-    public Account(String name, Double amount, String currency, int icon){
+    public Account(String name, double amount, String currency, int icon){
         this.id = -1;
         this.name = name;
         this.amount = amount;
@@ -43,7 +48,23 @@ public class Account{
         this.icon = icon;
     }
 
-    public Account(long id, String name, Double amount, String currency, int icon) {
+    public Account(){
+        this.id = -1;
+        name = "";
+        amount = 0.0;
+        currency = CURRENCY_DEFAULT;
+        icon = ICON_DEFAULT;
+    }
+
+    public Account(long id){
+        this.id = id;
+        name = "";
+        amount = 0.0;
+        currency = CURRENCY_DEFAULT;
+        icon = ICON_DEFAULT;
+    }
+
+    public Account(long id, String name, double amount, String currency, int icon) {
         this.id = id;
         this.name = name;
         this.amount = amount;
@@ -51,10 +72,22 @@ public class Account{
         this.icon = icon;
     }
 
+    public static Account get(long id){
+        List<Account> res = filter("_id = ?", new String[]{String.valueOf(id)});
+        if (res.size() == 0) { return null; }
+        return res.get(0);
+    }
+
+    public static Account get(String name){
+        List<Account> res = filter("name = ?", new String[]{name});
+        if (res.size() == 0) { return null; }
+        return res.get(0);
+    }
+
     public static List<Account> filter(String whereClause, String[] whereArgs){
         Cursor cursor = DBHelper.db.query(
                 TABLE_NAME,
-                new String[]{ID_COLUMN, NAME_COLUMN, AMOUNT_COLUMN, CURRENCY_COLUMN},
+                new String[]{ID_COLUMN, NAME_COLUMN, AMOUNT_COLUMN, CURRENCY_COLUMN, ICON_COLUMN},
                 whereClause,
                 whereArgs,
                 null,
@@ -65,9 +98,10 @@ public class Account{
         while (cursor.moveToNext()){
             long id = cursor.getInt(0);
             String name = cursor.getString(1);
-            Double amount = cursor.getDouble(2);
+            double amount = cursor.getDouble(2);
             String currency = cursor.getString(3);
-            Account item = new Account(id, name, amount, currency, 0);
+            int icon = cursor.getInt(4);
+            Account item = new Account(id, name, amount, currency, icon);
             res.add(item);
         }
         cursor.close();
@@ -88,7 +122,7 @@ public class Account{
         while (cursor.moveToNext()){
             long id = cursor.getInt(0);
             String name = cursor.getString(1);
-            Double amount = cursor.getDouble(2);
+            double amount = cursor.getDouble(2);
             String currency = cursor.getString(3);
             Account item = new Account(id, name, amount, currency, 0);
             res.add(item);
@@ -97,9 +131,25 @@ public class Account{
         return res;
     }
 
-    public void save(){
-//        Some legacy code
+    public void validate() throws DBValidateDataException{
+        if (name == null || name.equals("")){
+            throw DBValidateDataException.cannotBeEmpty(NAME_COLUMN);
+        }
+        Account other = Account.get(name);
+        if (other != null && other.id != id){
+            throw DBValidateDataException.alreadyExists(NAME_COLUMN);
+        }
+        if (currency == null || currency.equals("")){
+            currency = CURRENCY_DEFAULT;
+        }
+        if (icon == 0){
+            icon = ICON_DEFAULT;
+        }
+    }
 
+    public void save() throws DBValidateDataException{
+//        Some legacy code
+        this.validate();
 //        List<String> value_names = new ArrayList<>();
 //        List<String> values = new ArrayList<>();
         ContentValues values = new ContentValues();
@@ -112,11 +162,9 @@ public class Account{
 //        values.add(amount.toString());
         values.put(AMOUNT_COLUMN, amount);
 
-        if (currency != null){
-//            value_names.add(CURRENCY_COLUMN);
-//            values.add("\"" + currency + "\"");
-            values.put(CURRENCY_COLUMN, currency);
-        }
+//        value_names.add(CURRENCY_COLUMN);
+//        values.add("\"" + currency + "\"");
+        values.put(CURRENCY_COLUMN, currency);
 
         if (icon != 0){
 //            value_names.add(ICON_COLUMN);
@@ -142,11 +190,11 @@ public class Account{
         this.name = name;
     }
 
-    public Double getAmount() {
+    public double getAmount() {
         return amount;
     }
 
-    public void setAmount(Double amount) {
+    public void setAmount(double amount) {
         this.amount = amount;
     }
 
@@ -156,5 +204,16 @@ public class Account{
 
     public void setCurrency(String currency) {
         this.currency = currency;
+    }
+
+    @Override
+    public String toString() {
+        return "Account{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", amount=" + amount +
+                ", currency='" + currency + '\'' +
+                ", icon=" + icon +
+                '}';
     }
 }
