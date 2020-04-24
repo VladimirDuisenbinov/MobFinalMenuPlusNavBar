@@ -14,12 +14,14 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
+import com.example.mobfinalmenuplusnavbar.Account;
+import com.example.mobfinalmenuplusnavbar.DBValidateDataException;
 import com.example.mobfinalmenuplusnavbar.R;
-import com.example.mobfinalmenuplusnavbar.pojo.Account;
 import com.example.mobfinalmenuplusnavbar.pojo.Icon;
 import com.google.android.material.textfield.TextInputLayout;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 
 public class AddAccountFragment extends Fragment implements View.OnClickListener {
     TextInputLayout name;
@@ -29,9 +31,14 @@ public class AddAccountFragment extends Fragment implements View.OnClickListener
     Button btnSubmit;
     Context context;
     ArrayList<Icon> icons;
+    Account updateAccount;
 
     public AddAccountFragment(){
 
+    }
+
+    public AddAccountFragment(Account updateAccount){
+        this.updateAccount = updateAccount;
     }
 
     @Nullable
@@ -48,7 +55,7 @@ public class AddAccountFragment extends Fragment implements View.OnClickListener
         btnSubmit = view.findViewById(R.id.btn_submit);
         btnSubmit.setOnClickListener(this);
 
-        String[] currencies = new String[]{"$", "€", "₸", "₽"};
+        ArrayList<String > currencies = new ArrayList<>(Arrays.asList(new String[]{"$", "€", "₸", "₽"}));
 
         ArrayAdapter adapter = new ArrayAdapter(context, android.R.layout.simple_list_item_1,
                 currencies);
@@ -57,6 +64,14 @@ public class AddAccountFragment extends Fragment implements View.OnClickListener
         ArrayList<Icon> icons = Icon.getAccountIcons();
         IconsAdapter iconsAdapter = new IconsAdapter(context,icons);
         spinnerIcon.setAdapter(iconsAdapter);
+
+        if (updateAccount!=null){
+            name.getEditText().setText(updateAccount.getName());
+            amount.getEditText().setText(""+updateAccount.getAmount());
+            spinnerCurrency.setSelection(currencies.indexOf(updateAccount.getCurrency()));
+            spinnerIcon.setSelection(Icon.getPosition(updateAccount.getIcon()));
+        }
+
         return view;
     }
 
@@ -83,10 +98,29 @@ public class AddAccountFragment extends Fragment implements View.OnClickListener
             Icon icon = (Icon)spinnerIcon.getSelectedItem();
             int i = icon.getId();
 
-            Account account = new Account(n,a,c, i);
-            //            addCategoryToDb(category);
-            Toast.makeText(context, "Account was added successfully",
-                    Toast.LENGTH_SHORT).show();
+            if (updateAccount!=null){
+                updateAccount.setName(n);
+                updateAccount.setAmount(a);
+                updateAccount.setCurrency(c);
+                updateAccount.setIcon(i);
+                try {
+                    updateAccount.save();
+                    Toast.makeText(context, "Account was updated successfully",
+                            Toast.LENGTH_SHORT).show();
+                } catch (DBValidateDataException e) {
+                    e.printStackTrace();
+                }
+            }else{
+                Account account = new Account(n,a,c, i);
+                try {
+                    account.save();
+                    Toast.makeText(context, "Account was added successfully",
+                            Toast.LENGTH_SHORT).show();
+                } catch (DBValidateDataException e) {
+                    e.printStackTrace();
+                }
+            }
+
         }
     }
 }

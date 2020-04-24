@@ -206,6 +206,14 @@ public class Account{
         this.currency = currency;
     }
 
+    public int getIcon() {
+        return icon;
+    }
+
+    public void setIcon(int icon) {
+        this.icon = icon;
+    }
+
     @Override
     public String toString() {
         return "Account{" +

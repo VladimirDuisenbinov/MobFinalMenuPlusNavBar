@@ -1,5 +1,7 @@
 package com.example.mobfinalmenuplusnavbar.pojo;
 
+import android.widget.ArrayAdapter;
+
 import com.example.mobfinalmenuplusnavbar.R;
 
 import java.util.ArrayList;
@@ -12,7 +14,6 @@ public class Icon {
     public Icon(String name, int id){
         this.setName(name);
         this.setId(id);
-        icons = new ArrayList();
     }
 
     public static ArrayList<Icon> getCategoryIcons(){

@@ -58,11 +58,8 @@ public class AddCategoryFragment extends Fragment implements View.OnClickListene
             spinnerIcons.setSelection(Icon.getPosition(updateCategory.getIcon()));
         }
 
-
         btnSubmit = view.findViewById(R.id.btn_submit);
         btnSubmit.setOnClickListener(this);
-
-
 
         return view;
     }
@@ -95,6 +92,8 @@ public class AddCategoryFragment extends Fragment implements View.OnClickListene
                 updateCategory.setIcon(i);
                 try {
                     updateCategory.save();
+                    Toast.makeText(context, "Account was updated successfully",
+                            Toast.LENGTH_SHORT).show();
                 } catch (DBValidateDataException e) {
                     e.printStackTrace();
                 }
@@ -102,12 +101,12 @@ public class AddCategoryFragment extends Fragment implements View.OnClickListene
                 Category category = new Category(n,d,i);
                 try {
                     category.save();
+                    Toast.makeText(context, "Account was added successfully",
+                            Toast.LENGTH_SHORT).show();
                 } catch (DBValidateDataException e) {
                     e.printStackTrace();
                 }
             }
-            Toast.makeText(context, "Record was added successfully",
-                    Toast.LENGTH_SHORT).show();
         }
     }
 }
