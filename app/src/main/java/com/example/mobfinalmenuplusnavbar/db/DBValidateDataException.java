@@ -1,4 +1,4 @@
-package com.example.mobfinalmenuplusnavbar;
+package com.example.mobfinalmenuplusnavbar.db;
 
 public class DBValidateDataException extends Exception {
     public DBValidateDataException(String message){

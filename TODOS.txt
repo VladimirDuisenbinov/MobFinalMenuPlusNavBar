@@ -1,10 +1,6 @@
+
 Delete button on edit page for Record, Category, Account;
-Delete method in ORMClasses;
-On record save, subtract amount from account;
 Split record;
-Add "fix" category;
-Create fix record when account amount changed;
-Debts page, group by subjects from records;
-Add transaction category between accounts;
-Get current exchange rates from API, and show total amount;
+
 Set month limits with notification if exceeds;
+Get current exchange rates from API, and show total amount;
