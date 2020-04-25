@@ -1,8 +1,6 @@
 
 Delete button on edit page for Record, Category, Account;
-Delete method in ORMClasses;
 Split record;
-Create fix record when account amount changed;
 
 Set month limits with notification if exceeds;
 Get current exchange rates from API, and show total amount;

@@ -151,6 +151,7 @@ public class Account{
 
     public void save() throws DBValidateDataException{
         this.validate();
+        addFix();
 
         ContentValues values = new ContentValues();
 
@@ -163,6 +164,25 @@ public class Account{
         if (this.id < 0) {
             this.id = res;
         }
+    }
+
+    private void addFix() throws DBValidateDataException {
+        if (id < 0){
+            return;
+        }
+        double prev_amount = get(id).amount;
+
+        Record fix = new Record(
+                "Fix for " + name,
+                amount - prev_amount,
+                "Auto generated record",
+                Category.get(Category.FIX_NAME).getId(),
+                id,
+                1,
+                "",
+                ""
+        );
+        fix.save();
     }
 
     public long getId() {
