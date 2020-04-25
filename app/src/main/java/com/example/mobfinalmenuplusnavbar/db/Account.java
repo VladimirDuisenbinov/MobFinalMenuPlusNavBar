@@ -16,6 +16,7 @@ public class Account{
     public final static String AMOUNT_COLUMN = "AMOUNT";
     public final static String CURRENCY_COLUMN = "CURRENCY";
     public final static String ICON_COLUMN = "ICON";
+    public final static String CASH_NAME = "Cash";
 
     private final static String CURRENCY_DEFAULT = "KZT";
     private final static int ICON_DEFAULT = R.drawable.account_base_icon;
@@ -37,7 +38,7 @@ public class Account{
         db.execSQL(CREATE_TABLE_SCRIPT);
         db.execSQL("INSERT INTO "
                 + TABLE_NAME + " "
-                + "(" + NAME_COLUMN + ") VALUES (\"Cash\");"
+                + "(" + NAME_COLUMN + ") VALUES (\"" + CASH_NAME + "\");"
         );
     }
 
@@ -110,6 +111,9 @@ public class Account{
     }
 
     public void validate() throws DBValidateDataException {
+        if (id == get(CASH_NAME).id) {
+            throw new DBValidateDataException("This Account cannot be changed");
+        }
         if (name == null || name.equals("")){
             throw DBValidateDataException.cannotBeEmpty(NAME_COLUMN);
         }
@@ -123,6 +127,26 @@ public class Account{
         if (icon == 0){
             icon = ICON_DEFAULT;
         }
+    }
+
+    public void delete() throws DBValidateDataException {
+        if (id < 0){
+            throw new DBValidateDataException("Account does not exist");
+        }
+        if (id == get(CASH_NAME).id) {
+            throw new DBValidateDataException("This Account cannot be changed");
+        }
+        List<Record> recs = Record.filter(Record.ACCOUNT_ID_COLUMN + " = ?",
+                new String[]{String.valueOf(id)});
+        for (Record rec : recs){
+            rec.setAccount_id(1);
+            rec.save();
+        }
+        DBHelper.db.delete(
+                TABLE_NAME,
+                "_id = ",
+                new String[]{String.valueOf(id)}
+        );
     }
 
     public void save() throws DBValidateDataException{

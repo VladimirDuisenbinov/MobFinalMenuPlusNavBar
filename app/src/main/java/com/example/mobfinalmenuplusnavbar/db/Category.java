@@ -157,6 +157,27 @@ public class Category {
         }
     }
 
+    public void delete() throws DBValidateDataException {
+        if (id < 0){
+            throw new DBValidateDataException("Category does not exist");
+        }
+        if (id == get(DEBT_NAME).id || id == get(FIX_NAME).id ||
+                id == get(TRANSACTION_NAME).id || id == get(GENERAL_NAME).id) {
+            throw new DBValidateDataException("This Category cannot be deleted");
+        }
+        List<Record> recs = Record.filter(Record.CATEGORY_ID_COLUMN + " = ?",
+                new String[]{String.valueOf(id)});
+        for (Record rec : recs){
+            rec.setCategory_id(1);
+            rec.save();
+        }
+        DBHelper.db.delete(
+                TABLE_NAME,
+                "_id =  ",
+                new String[]{String.valueOf(id)}
+        );
+    }
+
     public void setName(String name) {
         this.name = name;
     }

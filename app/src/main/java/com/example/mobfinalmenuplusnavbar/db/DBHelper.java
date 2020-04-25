@@ -15,7 +15,7 @@ import java.util.Locale;
 
 public class DBHelper extends SQLiteOpenHelper {
     static public String EX_DB = "QISAP";
-    static public String DATE_FORMAT = "yy/MM/dd HH:mm:ss";
+    static public String DATE_FORMAT = "yyyy-MM-dd HH:mm";
 
     static public int DBVER = 1;
     static public DBHelper singleton = null;
@@ -78,7 +78,7 @@ public class DBHelper extends SQLiteOpenHelper {
     }
 
     public static String now(){
-        DateFormat df = new SimpleDateFormat("dd/MM/yy HH:mm:ss'Z'", Locale.US);
+        DateFormat df = new SimpleDateFormat(DATE_FORMAT, Locale.US);
         Calendar calobj = Calendar.getInstance();
         return df.format(calobj.getTime());
     }
