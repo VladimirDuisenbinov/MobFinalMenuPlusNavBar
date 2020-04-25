@@ -69,7 +69,7 @@ public class AddAccountFragment extends Fragment implements View.OnClickListener
             name.getEditText().setText(updateAccount.getName());
             amount.getEditText().setText(""+updateAccount.getAmount());
             spinnerCurrency.setSelection(currencies.indexOf(updateAccount.getCurrency()));
-            spinnerIcon.setSelection(Icon.getPosition(updateAccount.getIcon()));
+            spinnerIcon.setSelection(Icon.getAccountPosition(updateAccount.getIcon()));
         }
 
         return view;

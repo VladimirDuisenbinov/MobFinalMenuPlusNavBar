@@ -5,11 +5,13 @@ import android.widget.ArrayAdapter;
 import com.example.mobfinalmenuplusnavbar.R;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 public class Icon {
     private String name;
     private int id;
-    static ArrayList<Icon> icons;
+    static ArrayList<Icon> categeoryIcons;
+    static ArrayList<Icon> accountIcons;
 
     public Icon(String name, int id){
         this.setName(name);
@@ -17,20 +19,30 @@ public class Icon {
     }
 
     public static ArrayList<Icon> getCategoryIcons(){
-        icons = new ArrayList();
-        icons.add(new Icon("sport_icon", R.drawable.ic_sport));
-        icons.add(new Icon("travel_icon", R.drawable.ic_travel));
-        icons.add(new Icon("edu_icon", R.drawable.ic_education));
-        icons.add(new Icon("food_icon", R.drawable.ic_food));
-        icons.add(new Icon("entertainment_icon", R.drawable.ic_entertainment));
+        categeoryIcons = new ArrayList();
+        categeoryIcons.add(new Icon("sport_icon", R.drawable.ic_sport));
+        categeoryIcons.add(new Icon("travel_icon", R.drawable.ic_travel));
+        categeoryIcons.add(new Icon("edu_icon", R.drawable.ic_education));
+        categeoryIcons.add(new Icon("food_icon", R.drawable.ic_food));
+        categeoryIcons.add(new Icon("entertainment_icon", R.drawable.ic_entertainment));
 
-        return icons;
+        return categeoryIcons;
     }
 
-    public static int getPosition(int id){
-        for(Icon icon: icons){
+    public static int getCategoryPosition(int id){
+        for(Icon icon: categeoryIcons){
             if (icon.getId() == id){
-                return icons.indexOf(icon);
+                return categeoryIcons.indexOf(icon);
+            }
+        }
+
+        return -1;
+    }
+
+    public static int getAccountPosition(int id){
+        for(Icon icon: accountIcons){
+            if (icon.getId() == id){
+                return accountIcons.indexOf(icon);
             }
         }
 
@@ -38,15 +50,15 @@ public class Icon {
     }
 
     public static ArrayList<Icon> getAccountIcons(){
-        icons = new ArrayList();
-        icons.add(new Icon("Eurasian", R.drawable.eurasian));
-        icons.add(new Icon("Halyk", R.drawable.halyk));
-        icons.add(new Icon("Jysan", R.drawable.jusan));
-        icons.add(new Icon("Kaspi", R.drawable.kaspi));
-        icons.add(new Icon("Qazkom", R.drawable.qazkom));
-        icons.add(new Icon("Sber", R.drawable.sberbank));
+        accountIcons = new ArrayList();
+        accountIcons.add(new Icon("Eurasian", R.drawable.eurasian));
+        accountIcons.add(new Icon("Halyk", R.drawable.halyk));
+        accountIcons.add(new Icon("Jysan", R.drawable.jusan));
+        accountIcons.add(new Icon("Kaspi", R.drawable.kaspi));
+        accountIcons.add(new Icon("Qazkom", R.drawable.qazkom));
+        accountIcons.add(new Icon("Sber", R.drawable.sberbank));
 
-        return icons;
+        return accountIcons;
     }
 
     public String getName() {

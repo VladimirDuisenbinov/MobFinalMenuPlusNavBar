@@ -55,7 +55,7 @@ public class AddCategoryFragment extends Fragment implements View.OnClickListene
         if (updateCategory !=null){
             name.getEditText().setText(updateCategory.getName());
             description.getEditText().setText(updateCategory.getDescription());
-            spinnerIcons.setSelection(Icon.getPosition(updateCategory.getIcon()));
+            spinnerIcons.setSelection(Icon.getCategoryPosition(updateCategory.getIcon()));
         }
 
         btnSubmit = view.findViewById(R.id.btn_submit);

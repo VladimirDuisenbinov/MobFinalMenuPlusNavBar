@@ -21,8 +21,12 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
+import com.example.mobfinalmenuplusnavbar.Account;
+import com.example.mobfinalmenuplusnavbar.Category;
+import com.example.mobfinalmenuplusnavbar.DBValidateDataException;
 import com.example.mobfinalmenuplusnavbar.R;
-import com.example.mobfinalmenuplusnavbar.pojo.Record;
+import com.example.mobfinalmenuplusnavbar.Record;
+import com.example.mobfinalmenuplusnavbar.pojo.Icon;
 import com.google.android.material.switchmaterial.SwitchMaterial;
 import com.google.android.material.textfield.TextInputLayout;
 
@@ -45,11 +49,18 @@ public class AddRecordFragment extends Fragment implements View.OnClickListener 
     private String time;
     private ArrayList<String> categories;
     private ArrayList<String> accounts;
+    private Record updateRecord;
 
     public AddRecordFragment(ArrayList<String> categories, ArrayList<String> accounts) {
         super();
         this.categories = categories;
         this.accounts = accounts;
+    }
+
+    public AddRecordFragment(){};
+
+    public AddRecordFragment(Record updateRecord){
+        this.updateRecord = updateRecord;
     }
 
 
@@ -61,7 +72,10 @@ public class AddRecordFragment extends Fragment implements View.OnClickListener 
         View view = inflater.inflate(R.layout.add_records_fragment, container, false);
 
         spinnerAccounts = view.findViewById(R.id.account_dropdown);
+        ArrayList<Icon> accountIcons = Icon.getAccountIcons();
         spinnerCategories = view.findViewById(R.id.category_dropdown);
+        ArrayList<Icon> categoryIcons = Icon.getCategoryIcons();
+
 
         title = view.findViewById(R.id.title_field);
         title.setOnClickListener(new View.OnClickListener() {
@@ -87,12 +101,9 @@ public class AddRecordFragment extends Fragment implements View.OnClickListener 
 
         mandatory = view.findViewById(R.id.switch_mandatory);
 
-        ArrayAdapter adapterAccounts = new ArrayAdapter(container.getContext(), android.R.layout.simple_list_item_1,
-                accounts);
-        ArrayAdapter adapterCategories = new ArrayAdapter(context, android.R.layout.simple_list_item_1,
-                categories);
-        adapterAccounts.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        adapterCategories.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        IconsAdapter adapterAccounts = new IconsAdapter(context, accountIcons);
+        IconsAdapter adapterCategories = new IconsAdapter(context, categoryIcons);
+
         spinnerAccounts.setAdapter(adapterAccounts);
         spinnerCategories.setAdapter(adapterCategories);
 
@@ -138,60 +149,29 @@ public class AddRecordFragment extends Fragment implements View.OnClickListener 
             }
         });
 
+        if (updateRecord!=null){
+            title.getEditText().setText(updateRecord.getTitle());
+            description.getEditText().setText(updateRecord.getDescription());
+            amount.getEditText().setText((int) updateRecord.getAmount());
+            mandatory.setEnabled(updateRecord.getMandatory() == 1);
+            spinnerCategories.setSelection(
+                    Icon.getCategoryPosition(Category.get(updateRecord.getCategory_id()).getIcon()));
+            spinnerAccounts.setSelection(
+                    Icon.getAccountPosition(Account.get(updateRecord.getAccount_id()).getIcon()));
+            String date = updateRecord.getDate();
+            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm");
+            LocalDateTime dateTime = LocalDateTime.parse(date, formatter);
+            txtDate.setText(dateTime.getDayOfMonth() + "/" + dateTime.getMonth() + "/" +
+                    dateTime.getYear());
+            txtTime.setText(dateTime.getHour()+":" + dateTime.getMinute());
+        }
+
 
         btnDatePicker.setOnClickListener(this);
         btnTimePicker.setOnClickListener(this);
 
         btnSubmit = view.findViewById(R.id.btn_submit);
-        btnSubmit.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
-//                Record record = createRecord()
-
-                if (date == null){
-                    txtDate.setError("Choose Date");
-                }
-                if (time == null){
-                    txtTime.setError("Choose Time");
-                }
-                if(title.getEditText().getText().length() == 0 ){
-                    title.setError("Title can't be empty");
-                    title.setErrorEnabled(true);
-                }else{
-                    title.setError(null);
-                }
-                if(description.getEditText().getText().length() == 0 ){
-                    description.setError("Description can't be empty");
-                }else{
-                    description.setError(null);
-                }
-                if(amount.getEditText().getText().length()  == 0 ){
-                    amount.setError("Amount can't be empty");
-                }else{
-                    amount.setError(null);
-                }
-
-
-
-                if (title.getEditText().getText().length()!=0 && description.getEditText().getText().length()!=0
-                        && amount.getEditText().getText().length()!=0 && date!=null && time!=null){
-                    String str = date + " " + time;
-                    DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm");
-                    LocalDateTime dateTime = LocalDateTime.parse(str, formatter);
-                    String t = title.getEditText().getText().toString();
-                    String d = description.getEditText().toString();
-                    int a = Integer.parseInt(amount.getEditText().getText().toString());
-                    boolean m = mandatory.isChecked();
-
-                    Record record = new Record(t,d,a,m,dateTime);
-//                    addRecordToDatabase();
-                    Toast.makeText(context, "Record was added successfully",
-                            Toast.LENGTH_SHORT).show();
-                }
-
-            }
-        });
+        btnSubmit.setOnClickListener(this);
 
         return view;
     }
@@ -217,7 +197,7 @@ public class AddRecordFragment extends Fragment implements View.OnClickListener 
                             String d = dayOfMonth < 10 ? "0" + dayOfMonth : ""+dayOfMonth;
                             String m = monthOfYear < 10 ? "0" + monthOfYear : ""+monthOfYear;
 
-                            date = d + "-" + m + "-" + year;
+                            date = d + "/" + m + "/" + year;
                             txtDate.setText(date);
                         }
                     }, mYear, mMonth, mDay);
@@ -244,8 +224,64 @@ public class AddRecordFragment extends Fragment implements View.OnClickListener 
                         }
                     }, mHour, mMinute, true);
             timePickerDialog.show();
+        }
+
+        if (v == btnSubmit){
+            if (date == null){
+                txtDate.setError("Choose Date");
+            }
+            if (time == null){
+                txtTime.setError("Choose Time");
+            }
+            if(title.getEditText().getText().length() == 0 ){
+                title.setError("Title can't be empty");
+                title.setErrorEnabled(true);
+            }else{
+                title.setError(null);
+            }
+            if(description.getEditText().getText().length() == 0 ){
+                description.setError("Description can't be empty");
+            }else{
+                description.setError(null);
+            }
+            if(amount.getEditText().getText().length()  == 0 ){
+                amount.setError("Amount can't be empty");
+            }else{
+                amount.setError(null);
+            }
 
 
+
+            if (title.getEditText().getText().length()!=0 && description.getEditText().getText().length()!=0
+                    && amount.getEditText().getText().length()!=0 && date!=null && time!=null){
+                String dateTime = date + " " + time;
+                String t = title.getEditText().getText().toString();
+                String d = description.getEditText().toString();
+                int a = Integer.parseInt(amount.getEditText().getText().toString());
+                int m = mandatory.isChecked() == true ? 1 : 0;
+
+                if (updateRecord!=null){
+                    updateRecord.setDate(dateTime);
+                    updateRecord.setTitle(t);
+                    updateRecord.setDescription(d);
+                    updateRecord.setAmount(a);
+                    updateRecord.setMandatory(m);
+                    try {
+                        updateRecord.save();
+                    } catch (DBValidateDataException e) {
+                        e.printStackTrace();
+                    }
+                }else{
+                    Record record = new Record(t,a,d,m,);
+                }
+
+
+
+
+//                    addRecordToDatabase();
+                Toast.makeText(context, "Record was added successfully",
+                        Toast.LENGTH_SHORT).show();
+            }
         }
     }
 }
