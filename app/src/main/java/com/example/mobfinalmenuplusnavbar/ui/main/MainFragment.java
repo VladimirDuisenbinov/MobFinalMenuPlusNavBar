@@ -12,7 +12,10 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import com.example.mobfinalmenuplusnavbar.R;
+import com.example.mobfinalmenuplusnavbar.db.Account;
+
 import java.util.ArrayList;
+import java.util.List;
 
 public class MainFragment extends Fragment {
 
@@ -40,29 +43,36 @@ public class MainFragment extends Fragment {
     public void initCards() {
         Log.d(TAG, "initCards");
 
-        cardRecyclerLogos.add(R.drawable.halyk);
-        cardRecyclerBankNames.add("Halyk Bank");
-        cardRecyclerCashes.add("80 000 T");
+        List<Account> accounts = Account.filter(null, null);
+        cardRecyclerLogos.clear();
+        cardRecyclerBankNames.clear();
+        cardRecyclerCashes.clear();
 
-        cardRecyclerLogos.add(R.drawable.jusan);
-        cardRecyclerBankNames.add("Jusan Bank");
-        cardRecyclerCashes.add("50 000 T");
+        for (Account account: accounts){
+            cardRecyclerLogos.add(account.getIcon());
+            cardRecyclerBankNames.add(account.getName());
+            cardRecyclerCashes.add(account.getAmount() + account.getCurrency());
+        }
 
-        cardRecyclerLogos.add(R.drawable.kaspi);
-        cardRecyclerBankNames.add("Kaspi Bank");
-        cardRecyclerCashes.add("10 000 T");
-
-        cardRecyclerLogos.add(R.drawable.eurasian);
-        cardRecyclerBankNames.add("Eurasian Bank");
-        cardRecyclerCashes.add("85 000 T");
-
-        cardRecyclerLogos.add(R.drawable.sberbank);
-        cardRecyclerBankNames.add("Sberbank");
-        cardRecyclerCashes.add("20 000 T");
-
-        cardRecyclerLogos.add(R.drawable.qazkom);
-        cardRecyclerBankNames.add("Qazkommertsbank");
-        cardRecyclerCashes.add("145 000 T");
+//        cardRecyclerLogos.add(R.drawable.jusan);
+//        cardRecyclerBankNames.add("Jusan Bank");
+//        cardRecyclerCashes.add("50 000 T");
+//
+//        cardRecyclerLogos.add(R.drawable.kaspi);
+//        cardRecyclerBankNames.add("Kaspi Bank");
+//        cardRecyclerCashes.add("10 000 T");
+//
+//        cardRecyclerLogos.add(R.drawable.eurasian);
+//        cardRecyclerBankNames.add("Eurasian Bank");
+//        cardRecyclerCashes.add("85 000 T");
+//
+//        cardRecyclerLogos.add(R.drawable.sberbank);
+//        cardRecyclerBankNames.add("Sberbank");
+//        cardRecyclerCashes.add("20 000 T");
+//
+//        cardRecyclerLogos.add(R.drawable.qazkom);
+//        cardRecyclerBankNames.add("Qazkommertsbank");
+//        cardRecyclerCashes.add("145 000 T");
 
         initRecyclerView();
     }

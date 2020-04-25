@@ -6,6 +6,7 @@ import android.database.sqlite.SQLiteDatabase;
 import android.util.Pair;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 public class Record {
@@ -331,6 +332,28 @@ public class Record {
 
     public void setDate(String date) {
         this.date = date;
+    }
+
+    public List<Pair<String, Double>> groupByCategories(String start_date, String end_date,
+                                                        int mandatory){
+        Cursor cursor = DBHelper.db.query(
+                TABLE_NAME,
+                new String[]{
+                        CATEGORY_ID_COLUMN,
+                        "SUM(" + AMOUNT_COLUMN + ")"
+                },
+                MANDATORY_COLUMN + " = ? AND " + DATE_COLUMN + " BETWEEN ? AND ?",
+                new String[]{String.valueOf(mandatory), start_date, end_date},
+                CATEGORY_ID_COLUMN, null, DATE_COLUMN
+        );
+        List<Pair<String, Double>> res = new ArrayList<>();
+        while (cursor.moveToNext()) {
+            String category = Category.get(cursor.getLong(0)).getName();
+            Double amount = cursor.getDouble(1);
+            res.add(new Pair<String, Double>(category, amount));
+        }
+        cursor.close();
+        return res;
     }
 
     @Override
