@@ -3,14 +3,17 @@ package com.example.mobfinalmenuplusnavbar.pojo;
 import android.widget.ArrayAdapter;
 
 import com.example.mobfinalmenuplusnavbar.R;
+import com.example.mobfinalmenuplusnavbar.db.Account;
+import com.example.mobfinalmenuplusnavbar.db.Category;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 
 public class Icon {
     private String name;
     private int id;
-    static ArrayList<Icon> categeoryIcons;
+    static ArrayList<Icon> categoryIcons;
     static ArrayList<Icon> accountIcons;
 
     public Icon(String name, int id){
@@ -19,20 +22,20 @@ public class Icon {
     }
 
     public static ArrayList<Icon> getCategoryIcons(){
-        categeoryIcons = new ArrayList();
-        categeoryIcons.add(new Icon("sport_icon", R.drawable.ic_sport));
-        categeoryIcons.add(new Icon("travel_icon", R.drawable.ic_travel));
-        categeoryIcons.add(new Icon("edu_icon", R.drawable.ic_education));
-        categeoryIcons.add(new Icon("food_icon", R.drawable.ic_food));
-        categeoryIcons.add(new Icon("entertainment_icon", R.drawable.ic_entertainment));
+        categoryIcons = new ArrayList();
+        categoryIcons.add(new Icon("sport_icon", R.drawable.ic_sport));
+        categoryIcons.add(new Icon("travel_icon", R.drawable.ic_travel));
+        categoryIcons.add(new Icon("edu_icon", R.drawable.ic_education));
+        categoryIcons.add(new Icon("food_icon", R.drawable.ic_food));
+        categoryIcons.add(new Icon("entertainment_icon", R.drawable.ic_entertainment));
 
-        return categeoryIcons;
+        return categoryIcons;
     }
 
     public static int getCategoryPosition(int id){
-        for(Icon icon: categeoryIcons){
+        for(Icon icon: categoryIcons){
             if (icon.getId() == id){
-                return categeoryIcons.indexOf(icon);
+                return categoryIcons.indexOf(icon);
             }
         }
 
@@ -47,6 +50,26 @@ public class Icon {
         }
 
         return -1;
+    }
+
+    public static ArrayList<Icon> convertToAccountIcons(List<Account> accounts){
+        ArrayList<Icon> accountIcons = new ArrayList<>();
+
+        for (Account account: accounts){
+            accountIcons.add(new Icon(account.getName(), account.getIcon()));
+        }
+
+        return accountIcons;
+    }
+
+    public static ArrayList<Icon> convertToCategoryIcons(List<Category> categories){
+        ArrayList<Icon> categoryIcons = new ArrayList<>();
+
+        for (Category category: categories){
+            accountIcons.add(new Icon(category.getName(), category.getIcon()));
+        }
+
+        return categoryIcons;
     }
 
     public static ArrayList<Icon> getAccountIcons(){
@@ -76,4 +99,5 @@ public class Icon {
     public void setId(int id) {
         this.id = id;
     }
+
 }

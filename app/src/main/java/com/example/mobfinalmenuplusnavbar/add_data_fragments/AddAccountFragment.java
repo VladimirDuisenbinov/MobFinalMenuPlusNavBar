@@ -14,9 +14,9 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
-import com.example.mobfinalmenuplusnavbar.Account;
-import com.example.mobfinalmenuplusnavbar.DBValidateDataException;
 import com.example.mobfinalmenuplusnavbar.R;
+import com.example.mobfinalmenuplusnavbar.db.Account;
+import com.example.mobfinalmenuplusnavbar.db.DBValidateDataException;
 import com.example.mobfinalmenuplusnavbar.pojo.Icon;
 import com.google.android.material.textfield.TextInputLayout;
 

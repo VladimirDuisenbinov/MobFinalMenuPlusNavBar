@@ -21,11 +21,13 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
-import com.example.mobfinalmenuplusnavbar.Account;
-import com.example.mobfinalmenuplusnavbar.Category;
-import com.example.mobfinalmenuplusnavbar.DBValidateDataException;
+
 import com.example.mobfinalmenuplusnavbar.R;
-import com.example.mobfinalmenuplusnavbar.Record;
+
+import com.example.mobfinalmenuplusnavbar.db.Account;
+import com.example.mobfinalmenuplusnavbar.db.Category;
+import com.example.mobfinalmenuplusnavbar.db.DBValidateDataException;
+import com.example.mobfinalmenuplusnavbar.db.Record;
 import com.example.mobfinalmenuplusnavbar.pojo.Icon;
 import com.google.android.material.switchmaterial.SwitchMaterial;
 import com.google.android.material.textfield.TextInputLayout;
@@ -34,12 +36,13 @@ import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.List;
 
 public class AddRecordFragment extends Fragment implements View.OnClickListener {
 
     Button btnDatePicker, btnTimePicker, btnSubmit;
     EditText txtDate, txtTime;
-    TextInputLayout title, description, amount;
+    TextInputLayout title, description, amount, subject;
     SwitchMaterial mandatory;
     private int mYear, mMonth, mDay, mHour, mMinute;
     Spinner spinnerAccounts;
@@ -47,15 +50,11 @@ public class AddRecordFragment extends Fragment implements View.OnClickListener 
     Context context;
     private String date;
     private String time;
-    private ArrayList<String> categories;
-    private ArrayList<String> accounts;
+    private List<Category> categories;
+    private List<Account> accounts;
     private Record updateRecord;
 
-    public AddRecordFragment(ArrayList<String> categories, ArrayList<String> accounts) {
-        super();
-        this.categories = categories;
-        this.accounts = accounts;
-    }
+
 
     public AddRecordFragment(){};
 
@@ -72,9 +71,16 @@ public class AddRecordFragment extends Fragment implements View.OnClickListener 
         View view = inflater.inflate(R.layout.add_records_fragment, container, false);
 
         spinnerAccounts = view.findViewById(R.id.account_dropdown);
-        ArrayList<Icon> accountIcons = Icon.getAccountIcons();
         spinnerCategories = view.findViewById(R.id.category_dropdown);
-        ArrayList<Icon> categoryIcons = Icon.getCategoryIcons();
+
+        categories = Category.filter(null, null);
+        accounts = Account.filter(null, null);
+
+        ArrayList<Icon> accountIcons =
+                Icon.convertToAccountIcons(accounts);
+
+        ArrayList<Icon> categoryIcons =
+                Icon.convertToCategoryIcons(categories);
 
 
         title = view.findViewById(R.id.title_field);
@@ -82,6 +88,14 @@ public class AddRecordFragment extends Fragment implements View.OnClickListener 
             @Override
             public void onClick(View v) {
                 title.setError(null);
+            }
+        });
+
+        subject = view.findViewById(R.id.subject_field);
+        subject.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                subject.setError(null);
             }
         });
         description = view.findViewById(R.id.description_field);
@@ -151,13 +165,31 @@ public class AddRecordFragment extends Fragment implements View.OnClickListener 
 
         if (updateRecord!=null){
             title.getEditText().setText(updateRecord.getTitle());
+            subject.getEditText().setText(updateRecord.getSubject());
             description.getEditText().setText(updateRecord.getDescription());
             amount.getEditText().setText((int) updateRecord.getAmount());
             mandatory.setEnabled(updateRecord.getMandatory() == 1);
-            spinnerCategories.setSelection(
-                    Icon.getCategoryPosition(Category.get(updateRecord.getCategory_id()).getIcon()));
-            spinnerAccounts.setSelection(
-                    Icon.getAccountPosition(Account.get(updateRecord.getAccount_id()).getIcon()));
+
+            int accIndex = 0;
+
+            for (Account account: accounts){
+                if(updateRecord.getAccount_id()== account.getId()){
+                    break;
+                }
+                accIndex++;
+            }
+
+            int catIndex = 0;
+
+            for (Category category: categories){
+                if(updateRecord.getCategory_id()== category.getId()){
+                    break;
+                }
+                catIndex++;
+            }
+
+            spinnerCategories.setSelection(catIndex);
+            spinnerAccounts.setSelection(accIndex);
             String date = updateRecord.getDate();
             DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm");
             LocalDateTime dateTime = LocalDateTime.parse(date, formatter);
@@ -239,6 +271,12 @@ public class AddRecordFragment extends Fragment implements View.OnClickListener 
             }else{
                 title.setError(null);
             }
+            if(subject.getEditText().getText().length() == 0 ){
+                subject.setError("Subject can't be empty");
+                subject.setErrorEnabled(true);
+            }else{
+                subject.setError(null);
+            }
             if(description.getEditText().getText().length() == 0 ){
                 description.setError("Description can't be empty");
             }else{
@@ -253,34 +291,43 @@ public class AddRecordFragment extends Fragment implements View.OnClickListener 
 
 
             if (title.getEditText().getText().length()!=0 && description.getEditText().getText().length()!=0
-                    && amount.getEditText().getText().length()!=0 && date!=null && time!=null){
+                    && amount.getEditText().getText().length()!=0 && date!=null && time!=null
+                    && subject.getEditText().getText().length()!=0){
                 String dateTime = date + " " + time;
                 String t = title.getEditText().getText().toString();
+                String s = subject.getEditText().getText().toString();
                 String d = description.getEditText().toString();
-                int a = Integer.parseInt(amount.getEditText().getText().toString());
+                double a = Double.parseDouble(amount.getEditText().getText().toString());
                 int m = mandatory.isChecked() == true ? 1 : 0;
 
                 if (updateRecord!=null){
                     updateRecord.setDate(dateTime);
                     updateRecord.setTitle(t);
+                    updateRecord.setSubject(s);
                     updateRecord.setDescription(d);
                     updateRecord.setAmount(a);
                     updateRecord.setMandatory(m);
                     try {
                         updateRecord.save();
+                        Toast.makeText(context, "Record was updated successfully",
+                                Toast.LENGTH_SHORT).show();
                     } catch (DBValidateDataException e) {
                         e.printStackTrace();
                     }
                 }else{
-                    Record record = new Record(t,a,d,m,);
+                    long acc_id = accounts.get(spinnerAccounts.getSelectedItemPosition()).getId();
+                    long cat_id = categories.get(spinnerCategories.getSelectedItemPosition()).getId();
+                    Record record = new Record(t,a,d,cat_id,acc_id,m,s,dateTime);
+                    try {
+                        record.save();
+                        Toast.makeText(context, "Record was added successfully",
+                                Toast.LENGTH_SHORT).show();
+                    } catch (DBValidateDataException e) {
+                        e.printStackTrace();
+                    }
+
                 }
 
-
-
-
-//                    addRecordToDatabase();
-                Toast.makeText(context, "Record was added successfully",
-                        Toast.LENGTH_SHORT).show();
             }
         }
     }

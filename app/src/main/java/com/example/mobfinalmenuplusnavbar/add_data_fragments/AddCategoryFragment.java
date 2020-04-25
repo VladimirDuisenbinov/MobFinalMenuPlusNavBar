@@ -13,9 +13,10 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
-import com.example.mobfinalmenuplusnavbar.Category;
-import com.example.mobfinalmenuplusnavbar.DBValidateDataException;
+
 import com.example.mobfinalmenuplusnavbar.R;
+import com.example.mobfinalmenuplusnavbar.db.Category;
+import com.example.mobfinalmenuplusnavbar.db.DBValidateDataException;
 import com.example.mobfinalmenuplusnavbar.pojo.Icon;
 import com.google.android.material.textfield.TextInputLayout;
 
@@ -51,14 +52,16 @@ public class AddCategoryFragment extends Fragment implements View.OnClickListene
 
         IconsAdapter adapter = new IconsAdapter(context, icons);
         spinnerIcons.setAdapter(adapter);
+        btnSubmit = view.findViewById(R.id.btn_submit);
 
         if (updateCategory !=null){
             name.getEditText().setText(updateCategory.getName());
             description.getEditText().setText(updateCategory.getDescription());
             spinnerIcons.setSelection(Icon.getCategoryPosition(updateCategory.getIcon()));
+            btnSubmit.setText("Update Category");
         }
 
-        btnSubmit = view.findViewById(R.id.btn_submit);
+
         btnSubmit.setOnClickListener(this);
 
         return view;
