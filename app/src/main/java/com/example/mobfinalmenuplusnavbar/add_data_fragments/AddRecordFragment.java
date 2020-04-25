@@ -9,7 +9,6 @@ import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
@@ -28,7 +27,7 @@ import com.example.mobfinalmenuplusnavbar.db.Account;
 import com.example.mobfinalmenuplusnavbar.db.Category;
 import com.example.mobfinalmenuplusnavbar.db.DBValidateDataException;
 import com.example.mobfinalmenuplusnavbar.db.Record;
-import com.example.mobfinalmenuplusnavbar.pojo.Icon;
+import com.example.mobfinalmenuplusnavbar.db.Icon;
 import com.google.android.material.switchmaterial.SwitchMaterial;
 import com.google.android.material.textfield.TextInputLayout;
 

@@ -12,7 +12,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
 import com.example.mobfinalmenuplusnavbar.R;
-import com.example.mobfinalmenuplusnavbar.pojo.Icon;
+import com.example.mobfinalmenuplusnavbar.db.Icon;
 
 import java.util.ArrayList;
 

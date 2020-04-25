@@ -1,13 +1,8 @@
-package com.example.mobfinalmenuplusnavbar.pojo;
-
-import android.widget.ArrayAdapter;
+package com.example.mobfinalmenuplusnavbar.db;
 
 import com.example.mobfinalmenuplusnavbar.R;
-import com.example.mobfinalmenuplusnavbar.db.Account;
-import com.example.mobfinalmenuplusnavbar.db.Category;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 
 public class Icon {
