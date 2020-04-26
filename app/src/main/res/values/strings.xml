@@ -21,5 +21,6 @@
     <string name="hello_slideshow_second">Hello HomeSecondFragment. Arg: %1$s</string>
 
     <string name="account_prompt">Account</string>
+    <string name="menu_settings">Settings</string>
 
 </resources>

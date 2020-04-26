@@ -9,6 +9,7 @@ import com.example.mobfinalmenuplusnavbar.ui.debts.DebtsFragment;
 import com.example.mobfinalmenuplusnavbar.ui.history.HistoryFragment;
 import com.example.mobfinalmenuplusnavbar.ui.main.MainFragment;
 import com.example.mobfinalmenuplusnavbar.ui.plan.PlanFragment;
+import com.example.mobfinalmenuplusnavbar.ui.settings.SettingsFragment;
 
 public class MenusPagerAdapter extends FragmentStateAdapter {
 
@@ -31,12 +32,14 @@ public class MenusPagerAdapter extends FragmentStateAdapter {
                 return new PlanFragment();
             case 4:
                 return new AnalyticsFragment();
+            case 5:
+                return new SettingsFragment();
         }
         return null;
     }
 
     @Override
     public int getItemCount() {
-        return 5;
+        return 6;
     }
 }
