@@ -195,14 +195,15 @@ public class Record {
     }
 
     public void validate() throws DBValidateDataException {
-        if ( title == null || title.equals("")){
-            throw new DBValidateDataException("Title cannot be empty");
+        if ( title == null){
+            title = TITLE_DEFAULT;
         }
         if (description == null){ description = DESCRIPTION_DEFAULT; }
         if (category_id < 0) { category_id = 1; }
         if (Category.get(category_id) == null){
             throw new DBValidateDataException("Category not found");
         }
+        if (account_id < 0) { account_id = 1; }
         if (Account.get(account_id) == null){
             throw new DBValidateDataException("Account not found");
         }
@@ -255,11 +256,9 @@ public class Record {
             prev_account_id = get(id).account_id;
         }
         Account prev_account = Account.get(prev_account_id);
-        prev_account.setAmount(prev_account.getAmount() - prev_amount);
-        prev_account.save();
+        prev_account.addRecord(-prev_amount);
         Account account = Account.get(account_id);
-        account.setAmount(account.getAmount() + amount);
-        account.save();
+        account.addRecord(amount);
     }
 
     public static String getCreateTableScript() {

@@ -2,6 +2,7 @@ package com.example.mobfinalmenuplusnavbar;
 
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.MenuItem;
 
 import androidx.annotation.NonNull;
@@ -10,6 +11,8 @@ import androidx.core.view.GravityCompat;
 import androidx.viewpager2.widget.ViewPager2;
 
 import com.example.mobfinalmenuplusnavbar.db.DBHelper;
+import com.example.mobfinalmenuplusnavbar.db.DBValidateDataException;
+import com.example.mobfinalmenuplusnavbar.db.Record;
 import com.google.android.material.navigation.NavigationView;
 
 import androidx.navigation.ui.AppBarConfiguration;
@@ -52,6 +55,16 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
         dbHelper = new DBHelper(this);
         db = dbHelper.getWritableDatabase();
+
+        Record record = new Record();
+
+        try {
+            record.save();
+        } catch (DBValidateDataException e) {
+            Log.e("error", e.getMessage());
+            e.printStackTrace();
+        }
+        Log.e(" id", record.toString());
     }
 
 

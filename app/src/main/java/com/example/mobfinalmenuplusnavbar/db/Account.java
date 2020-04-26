@@ -188,6 +188,18 @@ public class Account{
         fix.save();
     }
 
+    public void addRecord(double amount){
+        this.amount += amount;
+        ContentValues values = new ContentValues();
+
+        values.put(AMOUNT_COLUMN, amount);
+
+        long res = DBHelper.save_item(TABLE_NAME, id, values);
+        if (this.id < 0) {
+            this.id = res;
+        }
+    }
+
     public long getId() {
         return id;
     }
