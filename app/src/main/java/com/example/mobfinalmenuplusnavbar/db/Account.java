@@ -171,6 +171,9 @@ public class Account{
             return;
         }
         double prev_amount = get(id).amount;
+        if (prev_amount == amount){
+            return;
+        }
 
         Record fix = new Record(
                 "Fix for " + name,
