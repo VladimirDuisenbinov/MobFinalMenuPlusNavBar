@@ -61,7 +61,7 @@ public class Icon {
         ArrayList<Icon> categoryIcons = new ArrayList<>();
 
         for (Category category: categories){
-            accountIcons.add(new Icon(category.getName(), category.getIcon()));
+            categoryIcons.add(new Icon(category.getName(), category.getIcon()));
         }
 
         return categoryIcons;
