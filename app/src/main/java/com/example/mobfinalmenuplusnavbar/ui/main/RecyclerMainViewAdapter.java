@@ -22,7 +22,12 @@ public class RecyclerMainViewAdapter extends RecyclerView.Adapter<RecyclerMainVi
     private ArrayList<String> cardRecyclerCashes = new ArrayList<>();
     private Context cardRecyclerContext;
 
-    public RecyclerMainViewAdapter(Context cardRecyclerContext, ArrayList<Integer> cardRecyclerLogos, ArrayList<String> cardRecyclerBankNames, ArrayList<String> cardRecyclerCashes) {
+    public RecyclerMainViewAdapter(
+            Context cardRecyclerContext,
+            ArrayList<Integer> cardRecyclerLogos,
+            ArrayList<String> cardRecyclerBankNames,
+            ArrayList<String> cardRecyclerCashes
+    ) {
         this.cardRecyclerContext = cardRecyclerContext;
         this.cardRecyclerLogos = cardRecyclerLogos;
         this.cardRecyclerBankNames = cardRecyclerBankNames;

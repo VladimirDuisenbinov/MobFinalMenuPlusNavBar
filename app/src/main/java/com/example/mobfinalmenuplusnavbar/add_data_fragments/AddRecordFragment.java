@@ -25,17 +25,21 @@ import com.example.mobfinalmenuplusnavbar.R;
 
 import com.example.mobfinalmenuplusnavbar.db.Account;
 import com.example.mobfinalmenuplusnavbar.db.Category;
+import com.example.mobfinalmenuplusnavbar.db.DBHelper;
 import com.example.mobfinalmenuplusnavbar.db.DBValidateDataException;
 import com.example.mobfinalmenuplusnavbar.db.Record;
 import com.example.mobfinalmenuplusnavbar.db.Icon;
 import com.google.android.material.switchmaterial.SwitchMaterial;
 import com.google.android.material.textfield.TextInputLayout;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
+import java.util.Locale;
 
 public class AddRecordFragment extends Fragment implements View.OnClickListener {
 
@@ -225,10 +229,14 @@ public class AddRecordFragment extends Fragment implements View.OnClickListener 
                         @Override
                         public void onDateSet(DatePicker view, int year,
                                               int monthOfYear, int dayOfMonth) {
-                            String d = dayOfMonth < 10 ? "0" + dayOfMonth : ""+dayOfMonth;
-                            String m = monthOfYear < 10 ? "0" + monthOfYear : ""+monthOfYear;
+//                            String d = dayOfMonth < 10 ? "0" + dayOfMonth : ""+dayOfMonth;
+//                            String m = monthOfYear < 10 ? "0" + monthOfYear : ""+monthOfYear;
 
-                            date = d + "/" + m + "/" + year;
+//                            date = d + "/" + m + "/" + year;
+                            Calendar newDate = Calendar.getInstance();
+                            newDate.set(year, monthOfYear, dayOfMonth);
+                            DateFormat df = new SimpleDateFormat(DBHelper.DATE_FORMAT, Locale.US);
+                            date = df.format(newDate.getTime());
                             txtDate.setText(date);
                         }
                     }, mYear, mMonth, mDay);
@@ -248,9 +256,13 @@ public class AddRecordFragment extends Fragment implements View.OnClickListener 
                         @Override
                         public void onTimeSet(TimePicker view, int hourOfDay,
                                               int minute) {
-                            String h = hourOfDay < 10 ? "0" + hourOfDay: "" + hourOfDay;
-                            String m = minute < 10 ? "0" + minute: "" + minute;
-                            time = h + ":" + m;
+//                            String h = hourOfDay < 10 ? "0" + hourOfDay: "" + hourOfDay;
+//                            String m = minute < 10 ? "0" + minute: "" + minute;
+//                            time = h + ":" + m;
+                            Calendar newDate = Calendar.getInstance();
+                            newDate.set (0, 0, 0, hourOfDay, minute);
+                            DateFormat df = new SimpleDateFormat(DBHelper.TIME_FORMAT, Locale.US);
+                            time = df.format(newDate.getTime());
                             txtTime.setText(time);
                         }
                     }, mHour, mMinute, true);

@@ -333,7 +333,7 @@ public class Record {
         this.date = date;
     }
 
-    public List<Pair<String, Double>> groupByCategories(String start_date, String end_date,
+    public static List<Pair<String, Double>> groupByCategories(String start_date, String end_date,
                                                         int mandatory){
         Cursor cursor = DBHelper.db.query(
                 TABLE_NAME,

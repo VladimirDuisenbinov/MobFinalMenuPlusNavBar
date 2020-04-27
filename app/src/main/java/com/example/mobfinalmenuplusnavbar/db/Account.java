@@ -189,10 +189,10 @@ public class Account{
     }
 
     public void addRecord(double amount){
-        this.amount += amount;
+        this.amount = this.amount + amount;
         ContentValues values = new ContentValues();
 
-        values.put(AMOUNT_COLUMN, amount);
+        values.put(AMOUNT_COLUMN, this.amount);
 
         long res = DBHelper.save_item(TABLE_NAME, id, values);
         if (this.id < 0) {
