@@ -22,13 +22,21 @@ public class RecyclerHistoryViewAdapter extends RecyclerView.Adapter<RecyclerHis
     private ArrayList<Integer> cardRecyclerLogos = new ArrayList<>();
     private ArrayList<String> cardRecyclerBankNames = new ArrayList<>();
     private ArrayList<String> cardRecyclerCashes = new ArrayList<>();
+    private ArrayList<String> cardRecyclerDates = new ArrayList<>();
     private Context cardRecyclerContext;
 
-    public RecyclerHistoryViewAdapter(Context cardRecyclerContext, ArrayList<Integer> cardRecyclerLogos, ArrayList<String> cardRecyclerBankNames, ArrayList<String> cardRecyclerCashes) {
+    public RecyclerHistoryViewAdapter(
+            Context cardRecyclerContext,
+            ArrayList<Integer> cardRecyclerLogos,
+            ArrayList<String> cardRecyclerBankNames,
+            ArrayList<String> cardRecyclerCashes,
+            ArrayList<String> cardRecyclerDates
+    ) {
         this.cardRecyclerContext = cardRecyclerContext;
         this.cardRecyclerLogos = cardRecyclerLogos;
         this.cardRecyclerBankNames = cardRecyclerBankNames;
         this.cardRecyclerCashes = cardRecyclerCashes;
+        this.cardRecyclerDates = cardRecyclerDates;
     }
 
     @NonNull
@@ -45,6 +53,7 @@ public class RecyclerHistoryViewAdapter extends RecyclerView.Adapter<RecyclerHis
 
         holder.cardRecyclerLogo.setImageResource(cardRecyclerLogos.get(position));
         holder.cardRecyclerBankName.setText(cardRecyclerBankNames.get(position));
+        holder.cardRecyclerDate.setText(cardRecyclerDates.get(position));
         holder.cardRecyclerCash.setText(cardRecyclerCashes.get(position));
 
         if (cardRecyclerCashes.get(position).contains("+")) {
@@ -72,6 +81,7 @@ public class RecyclerHistoryViewAdapter extends RecyclerView.Adapter<RecyclerHis
         ImageView cardRecyclerLogo;
         TextView cardRecyclerBankName;
         TextView cardRecyclerCash;
+        TextView cardRecyclerDate;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -80,6 +90,7 @@ public class RecyclerHistoryViewAdapter extends RecyclerView.Adapter<RecyclerHis
             cardRecyclerLogo = itemView.findViewById(R.id.cardHistoryRecyclerLogo);
             cardRecyclerBankName = itemView.findViewById(R.id.cardHistoryRecyclerBankName);
             cardRecyclerCash = itemView.findViewById(R.id.cardHistoryRecyclerCash);
+            cardRecyclerDate = itemView.findViewById(R.id.cardHistoryRecyclerDate);
         }
     }
 

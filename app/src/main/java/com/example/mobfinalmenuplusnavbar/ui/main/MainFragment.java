@@ -34,6 +34,10 @@ public class MainFragment extends Fragment {
     private ArrayList<String> cardRecyclerBankNames = new ArrayList<>();
     private ArrayList<String> cardRecyclerCashes = new ArrayList<>();
 
+    private ArrayList<Integer> lastRecordsRecyclerLogos = new ArrayList<>();
+    private ArrayList<String> lastRecordsRecyclerCategories = new ArrayList<>();
+    private ArrayList<String> lastRecordsRecyclerCashes = new ArrayList<>();
+
     @RequiresApi(api = Build.VERSION_CODES.KITKAT)
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
@@ -46,6 +50,7 @@ public class MainFragment extends Fragment {
         super.onStart();
 
         initCards();
+        initLastRecords();
         initMonthExpenditures();
     }
 
@@ -106,6 +111,18 @@ public class MainFragment extends Fragment {
         initRecyclerView();
     }
 
+    public void initLastRecords() {
+        lastRecordsRecyclerLogos.add(R.drawable.jusan);
+        lastRecordsRecyclerCategories.add("Jusan Bank");
+        lastRecordsRecyclerCashes.add("50 000 T");
+
+        lastRecordsRecyclerLogos.add(R.drawable.jusan);
+        lastRecordsRecyclerCategories.add("Jusan Bank");
+        lastRecordsRecyclerCashes.add("50 000 T");
+
+        initLastRecordsRecyclerView();
+    }
+
     @RequiresApi(api = Build.VERSION_CODES.KITKAT)
     public void initRecyclerView() {
         Log.d(TAG, "initRecyclerView");
@@ -119,7 +136,20 @@ public class MainFragment extends Fragment {
         );
         recyclerView.setAdapter(recyclerMainViewAdapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(this.getContext()));
+    }
 
+    public void initLastRecordsRecyclerView() {
+        Log.d(TAG, "initLastRecordsRecyclerView");
+        RecyclerView recyclerView = requireView().findViewById(R.id.lastRecordsRecyclerView);
+        recyclerView.setNestedScrollingEnabled(false);
+        RecyclerLastRecordsAdapter recyclerLastRecordsAdapter = new RecyclerLastRecordsAdapter(
+                this.getContext(),
+                lastRecordsRecyclerLogos,
+                lastRecordsRecyclerCategories,
+                lastRecordsRecyclerCashes
+        );
+        recyclerView.setAdapter(recyclerLastRecordsAdapter);
+        recyclerView.setLayoutManager(new LinearLayoutManager(this.getContext()));
     }
 
 }

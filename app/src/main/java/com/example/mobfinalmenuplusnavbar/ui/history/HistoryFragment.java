@@ -19,6 +19,7 @@ public class HistoryFragment extends Fragment {
     private ArrayList<Integer> cardRecyclerLogos = new ArrayList<>();
     private ArrayList<String> cardRecyclerBankNames = new ArrayList<>();
     private ArrayList<String> cardRecyclerCashes = new ArrayList<>();
+    private ArrayList<String> cardRecyclerDates = new ArrayList<>();
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
@@ -37,26 +38,32 @@ public class HistoryFragment extends Fragment {
         cardRecyclerLogos.add(R.drawable.record_base_icon);
         cardRecyclerCashes.add("+80 000 T");
         cardRecyclerBankNames.add("Salary");
+        cardRecyclerDates.add("18.03.2019");
 
         cardRecyclerLogos.add(R.drawable.record_base_icon);
         cardRecyclerCashes.add("-10 000 T");
         cardRecyclerBankNames.add("Sport");
+        cardRecyclerDates.add("01.04.2019");
 
         cardRecyclerLogos.add(R.drawable.record_base_icon);
         cardRecyclerCashes.add("+20 000 T");
         cardRecyclerBankNames.add("Work");
+        cardRecyclerDates.add("03.01.2020");
 
         cardRecyclerLogos.add(R.drawable.record_base_icon);
         cardRecyclerCashes.add("-145 000 T");
         cardRecyclerBankNames.add("VISA");
+        cardRecyclerDates.add("18.03.2019");
 
         cardRecyclerLogos.add(R.drawable.record_base_icon);
         cardRecyclerCashes.add("+10 000 T");
         cardRecyclerBankNames.add("Sell");
+        cardRecyclerDates.add("03.01.2020");
 
         cardRecyclerLogos.add(R.drawable.record_base_icon);
         cardRecyclerCashes.add("-85 000 T");
         cardRecyclerBankNames.add("Food");
+        cardRecyclerDates.add("18.03.2019");
 
         initRecyclerView();
     }
@@ -65,7 +72,10 @@ public class HistoryFragment extends Fragment {
         Log.d(TAG, "initRecyclerView");
         RecyclerView recyclerView = requireView().findViewById(R.id.lastRecordsRecyclerView);
         recyclerView.setNestedScrollingEnabled(false);
-        RecyclerHistoryViewAdapter recyclerHistoryViewAdapter = new RecyclerHistoryViewAdapter(this.getContext(), cardRecyclerLogos, cardRecyclerBankNames, cardRecyclerCashes);
+        RecyclerHistoryViewAdapter recyclerHistoryViewAdapter = new RecyclerHistoryViewAdapter(
+                this.getContext(), cardRecyclerLogos, cardRecyclerBankNames,
+                cardRecyclerCashes, cardRecyclerDates
+        );
         recyclerView.setAdapter(recyclerHistoryViewAdapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(this.getContext()));
 

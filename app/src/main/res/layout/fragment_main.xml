@@ -17,18 +17,77 @@
             android:layout_width="fill_parent"
             android:layout_height="wrap_content">
 
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/TotalMainConstraintLayout"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@drawable/background_label"
+                android:layout_centerHorizontal="true"
+                android:layout_marginTop="10dp"
+                >
+                <TextView
+                    android:id="@+id/TotalMainTextview"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    android:paddingTop="5dp"
+                    android:paddingBottom="5dp"
+                    android:paddingLeft="10dp"
+                    android:paddingRight="10dp"
+                    android:text="Total Bank"
+                    android:textColor="#FFFFFF"
+                    android:textSize="20sp"
+                    android:layout_centerHorizontal="true"
+                    >
+                </TextView>
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/cardRecyclerView"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+                android:layout_height="wrap_content"
+                android:layout_below="@id/TotalMainConstraintLayout">
             </androidx.recyclerview.widget.RecyclerView>
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/ExpendituresMainConstraintLayout"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@drawable/background_label"
+                android:layout_below="@+id/cardRecyclerView"
+                android:layout_centerHorizontal="true"
+                android:layout_marginTop="10dp"
+                >
+
+                <TextView
+                    android:id="@+id/expendituresMainTextview"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:paddingTop="5dp"
+                    android:paddingBottom="5dp"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    android:paddingLeft="10dp"
+                    android:paddingRight="10dp"
+                    android:text="Expenditures"
+                    android:textColor="#FFFFFF"
+                    android:textSize="20sp"
+                    android:layout_centerHorizontal="true"
+                    >
+                </TextView>
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
 
             <RelativeLayout
                 android:id="@+id/secondMainSubLayout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:padding="10dp"
-                android:layout_below="@id/cardRecyclerView">
+                android:layout_below="@id/ExpendituresMainConstraintLayout">
 
                 <RelativeLayout
                     android:id="@+id/expendituresLayout"
@@ -59,7 +118,7 @@
 
                         <TextView
                             android:id="@+id/expenditureMandatoryTitle"
-                            android:text="Mandatory Expenditures"
+                            android:text="Mandatory"
                             android:layout_width="match_parent"
                             android:layout_height="match_parent"
                             android:layout_marginTop="10dp"
@@ -93,12 +152,12 @@
 
                     <TextView
                         android:id="@+id/expenditureNonMandatoryTitle"
-                        android:text="Non-Mandatory Expenditures"
+                        android:text="Non-Mandatory"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:layout_marginTop="10dp"
                         android:gravity="center"
-                        android:textColor="#000000"
+                        android:textColor="#FFFFFF"
                         android:textSize="20sp"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent" />
@@ -111,12 +170,57 @@
                         android:layout_below="@+id/expenditureNonMandatoryTitle"
                         android:paddingBottom="10dp"
                         android:gravity="center"
-                        android:textColor="#000000"
+                        android:textColor="#FFFFFF"
                         android:textSize="15sp" />
 
                     </RelativeLayout>
 
                 </RelativeLayout>
+
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:id="@+id/thirdMainSubLayout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/secondMainSubLayout"
+                android:paddingBottom="10dp"
+                >
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:id="@+id/LastRecordsMainConstraintLayout"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/background_label"
+                    android:layout_centerHorizontal="true"
+                    >
+
+                    <TextView
+                        android:id="@+id/lastRecordsMainTextview"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        android:paddingBottom="5dp"
+                        android:paddingTop="5dp"
+                        android:paddingLeft="10dp"
+                        android:paddingRight="10dp"
+                        android:text="Last Records"
+                        android:textColor="#FFFFFF"
+                        android:textSize="20sp"
+                        android:layout_centerHorizontal="true"
+                        >
+                    </TextView>
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/lastRecordsRecyclerView"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/LastRecordsMainConstraintLayout">
+                </androidx.recyclerview.widget.RecyclerView>
 
             </RelativeLayout>
 

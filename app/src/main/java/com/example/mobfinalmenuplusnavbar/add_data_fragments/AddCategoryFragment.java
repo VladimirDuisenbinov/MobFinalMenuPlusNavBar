@@ -95,7 +95,7 @@ public class AddCategoryFragment extends Fragment implements View.OnClickListene
                 updateCategory.setIcon(i);
                 try {
                     updateCategory.save();
-                    Toast.makeText(context, "Account was updated successfully",
+                    Toast.makeText(context, "Category was updated successfully",
                             Toast.LENGTH_SHORT).show();
                 } catch (DBValidateDataException e) {
                     e.printStackTrace();
@@ -104,7 +104,7 @@ public class AddCategoryFragment extends Fragment implements View.OnClickListene
                 Category category = new Category(n,d,i);
                 try {
                     category.save();
-                    Toast.makeText(context, "Account was added successfully",
+                    Toast.makeText(context, "Category was added successfully",
                             Toast.LENGTH_SHORT).show();
                 } catch (DBValidateDataException e) {
                     e.printStackTrace();
