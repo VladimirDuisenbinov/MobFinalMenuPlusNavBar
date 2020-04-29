@@ -67,8 +67,6 @@ public class HistoryFragment extends Fragment implements View.OnClickListener {
                 if (startDate.getText().length()!= 0
                         && endDate.getText().length()!= 0 ){
                     initCards();
-                    //update RecyclerView by notifiying adapter;
-                    initRecyclerView();
                 }
             }
         });
@@ -76,9 +74,14 @@ public class HistoryFragment extends Fragment implements View.OnClickListener {
         return v;
     }
 
+    @Override
+    public void onResume() {
+        super.onResume();
+        initCards();
+    }
+
     public void onStart() {
         super.onStart();
-
         initCards();
     }
 

@@ -123,6 +123,13 @@ public class MainFragment extends Fragment {
         initRecyclerView();
     }
 
+    @Override
+    public void onResume() {
+        super.onResume();
+        initCards();
+        initLastRecords();
+    }
+
     public void initLastRecords() {
         // lastRecordsRecyclerIds.add(id);
         lastRecordsRecyclerIds = new ArrayList<>();
