@@ -54,11 +54,11 @@ public class HistoryFragment extends Fragment implements View.OnClickListener {
         Calendar calendar = Calendar.getInstance();
         calendar.add(Calendar.MONTH, -1);
         Date date = calendar.getTime();
-        startDate.setText(new SimpleDateFormat("yyyy-MM-dd", Locale.US ).format(date));
+        startDate.setText(new SimpleDateFormat(DBHelper.DATE_FORMAT, Locale.US ).format(date));
         endDateBtn = v.findViewById(R.id.end_date_btn);
         endDateBtn.setOnClickListener(this);
         endDate = v.findViewById(R.id.end_text);
-        endDate.setText(new SimpleDateFormat("yyyy-MM-dd", Locale.US).format(new Date()));
+        endDate.setText(new SimpleDateFormat(DBHelper.DATE_FORMAT, Locale.US).format(new Date()));
         filterBtn = v.findViewById(R.id.filter_btn);
 
         filterBtn.setOnClickListener(new View.OnClickListener() {
@@ -72,11 +72,6 @@ public class HistoryFragment extends Fragment implements View.OnClickListener {
                 }
             }
         });
-
-
-
-
-
 
         return v;
     }
@@ -107,32 +102,6 @@ public class HistoryFragment extends Fragment implements View.OnClickListener {
             cardRecyclerBankNames.add(Account.get(record.getAccount_id()).getName());
             cardRecyclerDates.add(record.getDate());
         }
-
-        // cardRecyclerIds.add(id);
-//        cardRecyclerLogos.add(R.drawable.record_base_icon);
-//        cardRecyclerCashes.add("-10 000 T");
-//        cardRecyclerBankNames.add("Sport");
-//        cardRecyclerDates.add("01.04.2019");
-//
-//        cardRecyclerLogos.add(R.drawable.record_base_icon);
-//        cardRecyclerCashes.add("+20 000 T");
-//        cardRecyclerBankNames.add("Work");
-//        cardRecyclerDates.add("03.01.2020");
-//
-//        cardRecyclerLogos.add(R.drawable.record_base_icon);
-//        cardRecyclerCashes.add("-145 000 T");
-//        cardRecyclerBankNames.add("VISA");
-//        cardRecyclerDates.add("18.03.2019");
-//
-//        cardRecyclerLogos.add(R.drawable.record_base_icon);
-//        cardRecyclerCashes.add("+10 000 T");
-//        cardRecyclerBankNames.add("Sell");
-//        cardRecyclerDates.add("03.01.2020");
-//
-//        cardRecyclerLogos.add(R.drawable.record_base_icon);
-//        cardRecyclerCashes.add("-85 000 T");
-//        cardRecyclerBankNames.add("Food");
-//        cardRecyclerDates.add("18.03.2019");
 
         initRecyclerView();
     }

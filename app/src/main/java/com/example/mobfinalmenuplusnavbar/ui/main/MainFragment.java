@@ -22,6 +22,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.mobfinalmenuplusnavbar.R;
 import com.example.mobfinalmenuplusnavbar.add_data_fragments.AddRecordFragment;
 import com.example.mobfinalmenuplusnavbar.db.Account;
+import com.example.mobfinalmenuplusnavbar.db.Category;
 import com.example.mobfinalmenuplusnavbar.db.DBHelper;
 import com.example.mobfinalmenuplusnavbar.db.Record;
 
@@ -43,7 +44,7 @@ public class MainFragment extends Fragment {
     private ArrayList<String> cardRecyclerBankNames = new ArrayList<>();
     private ArrayList<String> cardRecyclerCashes = new ArrayList<>();
 
-    private ArrayList<Integer> lastRecordsRecyclerIds = new ArrayList<>();
+    private ArrayList<Long> lastRecordsRecyclerIds = new ArrayList<>();
     private ArrayList<Integer> lastRecordsRecyclerLogos = new ArrayList<>();
     private ArrayList<String> lastRecordsRecyclerCategories = new ArrayList<>();
     private ArrayList<String> lastRecordsRecyclerCashes = new ArrayList<>();
@@ -119,38 +120,24 @@ public class MainFragment extends Fragment {
             cardRecyclerCashes.add(account.getAmount() + account.getCurrency());
         }
 
-//        cardRecyclerLogos.add(R.drawable.jusan);
-//        cardRecyclerBankNames.add("Jusan Bank");
-//        cardRecyclerCashes.add("50 000 T");
-//
-//        cardRecyclerLogos.add(R.drawable.kaspi);
-//        cardRecyclerBankNames.add("Kaspi Bank");
-//        cardRecyclerCashes.add("10 000 T");
-//
-//        cardRecyclerLogos.add(R.drawable.eurasian);
-//        cardRecyclerBankNames.add("Eurasian Bank");
-//        cardRecyclerCashes.add("85 000 T");
-//
-//        cardRecyclerLogos.add(R.drawable.sberbank);
-//        cardRecyclerBankNames.add("Sberbank");
-//        cardRecyclerCashes.add("20 000 T");
-//
-//        cardRecyclerLogos.add(R.drawable.qazkom);
-//        cardRecyclerBankNames.add("Qazkommertsbank");
-//        cardRecyclerCashes.add("145 000 T");
-
         initRecyclerView();
     }
 
     public void initLastRecords() {
         // lastRecordsRecyclerIds.add(id);
-        lastRecordsRecyclerLogos.add(R.drawable.ic_debts);
-        lastRecordsRecyclerCategories.add("Debts");
-        lastRecordsRecyclerCashes.add("+50 000 T");
+        lastRecordsRecyclerIds = new ArrayList<>();
+        lastRecordsRecyclerLogos = new ArrayList<>();
+        lastRecordsRecyclerCategories = new ArrayList<>();
+        lastRecordsRecyclerCashes = new ArrayList<>();
 
-        lastRecordsRecyclerLogos.add(R.drawable.ic_food);
-        lastRecordsRecyclerCategories.add("Food");
-        lastRecordsRecyclerCashes.add("-20 000 T");
+        List<Record> records = Record.filter(Record.DATE_COLUMN+" > ?", new String[]{ new SimpleDateFormat(DBHelper.DATE_FORMAT, Locale.US).format(new Date()) });
+
+        for (Record record: records){
+            lastRecordsRecyclerIds.add(record.getId());
+            lastRecordsRecyclerLogos.add(Category.get(record.getCategory_id()).getIcon());
+            lastRecordsRecyclerCategories.add(Account.get(record.getAccount_id()).getName());
+            lastRecordsRecyclerCashes.add(record.getAmount() >= 0 ? "+" + record.getAmount() : "" + record.getAmount());
+        }
 
         initLastRecordsRecyclerView();
     }

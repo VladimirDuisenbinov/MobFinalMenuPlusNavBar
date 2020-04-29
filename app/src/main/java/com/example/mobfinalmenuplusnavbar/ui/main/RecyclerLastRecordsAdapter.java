@@ -19,7 +19,7 @@ import java.util.ArrayList;
 public class RecyclerLastRecordsAdapter extends RecyclerView.Adapter<RecyclerLastRecordsAdapter.ViewHolder>{
 
     private static final String TAG = "RecyclerLastRecordsAdapter";
-    private ArrayList<Integer> lastRecordsRecyclerIds = new ArrayList<>();
+    private ArrayList<Long> lastRecordsRecyclerIds = new ArrayList<>();
     private ArrayList<Integer> lastRecordsRecyclerLogos = new ArrayList<>();
     private ArrayList<String> lastRecordsRecyclerCategories = new ArrayList<>();
     private ArrayList<String> lastRecordsRecyclerCashes = new ArrayList<>();
@@ -27,7 +27,7 @@ public class RecyclerLastRecordsAdapter extends RecyclerView.Adapter<RecyclerLas
 
     public RecyclerLastRecordsAdapter(
             Context lastRecordsRecyclerContext,
-            ArrayList<Integer> lastRecordsRecyclerIds,
+            ArrayList<Long> lastRecordsRecyclerIds,
             ArrayList<Integer> lastRecordsRecyclerLogos,
             ArrayList<String> lastRecordsRecyclerCategories,
             ArrayList<String> lastRecordsRecyclerCashes
