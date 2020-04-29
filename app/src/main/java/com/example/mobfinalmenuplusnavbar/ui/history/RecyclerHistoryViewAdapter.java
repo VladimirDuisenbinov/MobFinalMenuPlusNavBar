@@ -19,7 +19,7 @@ import java.util.ArrayList;
 public class RecyclerHistoryViewAdapter extends RecyclerView.Adapter<RecyclerHistoryViewAdapter.ViewHolder>{
 
     private static final String TAG = "RecyclerHistoryAdapter";
-    private ArrayList<Integer> cardRecyclerIds = new ArrayList<>();
+    private ArrayList<Long> cardRecyclerIds = new ArrayList<>();
     private ArrayList<Integer> cardRecyclerLogos = new ArrayList<>();
     private ArrayList<String> cardRecyclerBankNames = new ArrayList<>();
     private ArrayList<String> cardRecyclerCashes = new ArrayList<>();
@@ -28,7 +28,7 @@ public class RecyclerHistoryViewAdapter extends RecyclerView.Adapter<RecyclerHis
 
     public RecyclerHistoryViewAdapter(
             Context cardRecyclerContext,
-            ArrayList<Integer> cardRecyclerIds,
+            ArrayList<Long> cardRecyclerIds,
             ArrayList<Integer> cardRecyclerLogos,
             ArrayList<String> cardRecyclerBankNames,
             ArrayList<String> cardRecyclerCashes,

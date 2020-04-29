@@ -18,6 +18,8 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import com.example.mobfinalmenuplusnavbar.R;
 import com.example.mobfinalmenuplusnavbar.add_data_fragments.AddRecordFragment;
+import com.example.mobfinalmenuplusnavbar.db.Account;
+import com.example.mobfinalmenuplusnavbar.db.Category;
 import com.example.mobfinalmenuplusnavbar.db.DBHelper;
 import com.example.mobfinalmenuplusnavbar.db.Record;
 
@@ -33,7 +35,7 @@ public class HistoryFragment extends Fragment implements View.OnClickListener {
 
     private static final String TAG = "HistoryFragment";
 
-    private ArrayList<Integer> cardRecyclerIds = new ArrayList<>();
+    private ArrayList<Long> cardRecyclerIds = new ArrayList<>();
     private ArrayList<Integer> cardRecyclerLogos = new ArrayList<>();
     private ArrayList<String> cardRecyclerBankNames = new ArrayList<>();
     private ArrayList<String> cardRecyclerCashes = new ArrayList<>();
@@ -64,11 +66,9 @@ public class HistoryFragment extends Fragment implements View.OnClickListener {
             public void onClick(View v) {
                 if (startDate.getText().length()!= 0
                         && endDate.getText().length()!= 0 ){
-                    String start_date = startDate.getText().toString();
-                    String end_date = endDate.getText().toString();
-                    List<Record> records = Record.filter(Record.DATE_COLUMN+" between ? and ?", new String[]{ start_date, end_date + "z" });
+                    initCards();
                     //update RecyclerView by notifiying adapter;
-//                    TODO: show records in recycler view
+                    initRecyclerView();
                 }
             }
         });
@@ -90,37 +90,49 @@ public class HistoryFragment extends Fragment implements View.OnClickListener {
     public void initCards() {
         Log.d(TAG, "initCards");
 
+        String start_date = startDate.getText().toString();
+        String end_date = endDate.getText().toString();
+        List<Record> records = Record.filter(Record.DATE_COLUMN+" between ? and ?", new String[]{ start_date, end_date + "z" });
+
+        cardRecyclerIds = new ArrayList<>();
+        cardRecyclerLogos = new ArrayList<>();
+        cardRecyclerBankNames = new ArrayList<>();
+        cardRecyclerCashes = new ArrayList<>();
+        cardRecyclerDates = new ArrayList<>();
+
+        for (Record record: records){
+            cardRecyclerIds.add(record.getId());
+            cardRecyclerLogos.add(Category.get(record.getCategory_id()).getIcon());
+            cardRecyclerCashes.add(record.getAmount() >= 0 ? "+" + record.getAmount() : "" + record.getAmount());
+            cardRecyclerBankNames.add(Account.get(record.getAccount_id()).getName());
+            cardRecyclerDates.add(record.getDate());
+        }
+
         // cardRecyclerIds.add(id);
-
-        cardRecyclerLogos.add(R.drawable.record_base_icon);
-        cardRecyclerCashes.add("+80 000 T");
-        cardRecyclerBankNames.add("Salary");
-        cardRecyclerDates.add("18.03.2019");
-
-        cardRecyclerLogos.add(R.drawable.record_base_icon);
-        cardRecyclerCashes.add("-10 000 T");
-        cardRecyclerBankNames.add("Sport");
-        cardRecyclerDates.add("01.04.2019");
-
-        cardRecyclerLogos.add(R.drawable.record_base_icon);
-        cardRecyclerCashes.add("+20 000 T");
-        cardRecyclerBankNames.add("Work");
-        cardRecyclerDates.add("03.01.2020");
-
-        cardRecyclerLogos.add(R.drawable.record_base_icon);
-        cardRecyclerCashes.add("-145 000 T");
-        cardRecyclerBankNames.add("VISA");
-        cardRecyclerDates.add("18.03.2019");
-
-        cardRecyclerLogos.add(R.drawable.record_base_icon);
-        cardRecyclerCashes.add("+10 000 T");
-        cardRecyclerBankNames.add("Sell");
-        cardRecyclerDates.add("03.01.2020");
-
-        cardRecyclerLogos.add(R.drawable.record_base_icon);
-        cardRecyclerCashes.add("-85 000 T");
-        cardRecyclerBankNames.add("Food");
-        cardRecyclerDates.add("18.03.2019");
+//        cardRecyclerLogos.add(R.drawable.record_base_icon);
+//        cardRecyclerCashes.add("-10 000 T");
+//        cardRecyclerBankNames.add("Sport");
+//        cardRecyclerDates.add("01.04.2019");
+//
+//        cardRecyclerLogos.add(R.drawable.record_base_icon);
+//        cardRecyclerCashes.add("+20 000 T");
+//        cardRecyclerBankNames.add("Work");
+//        cardRecyclerDates.add("03.01.2020");
+//
+//        cardRecyclerLogos.add(R.drawable.record_base_icon);
+//        cardRecyclerCashes.add("-145 000 T");
+//        cardRecyclerBankNames.add("VISA");
+//        cardRecyclerDates.add("18.03.2019");
+//
+//        cardRecyclerLogos.add(R.drawable.record_base_icon);
+//        cardRecyclerCashes.add("+10 000 T");
+//        cardRecyclerBankNames.add("Sell");
+//        cardRecyclerDates.add("03.01.2020");
+//
+//        cardRecyclerLogos.add(R.drawable.record_base_icon);
+//        cardRecyclerCashes.add("-85 000 T");
+//        cardRecyclerBankNames.add("Food");
+//        cardRecyclerDates.add("18.03.2019");
 
         initRecyclerView();
     }

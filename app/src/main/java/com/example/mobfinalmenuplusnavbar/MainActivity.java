@@ -55,16 +55,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
         dbHelper = new DBHelper(this);
         db = dbHelper.getWritableDatabase();
-
-        Record record = new Record();
-
-        try {
-            record.save();
-        } catch (DBValidateDataException e) {
-            Log.e("error", e.getMessage());
-            e.printStackTrace();
-        }
-        Log.e(" id", record.toString());
     }
 
 

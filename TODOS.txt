@@ -3,13 +3,7 @@ Akzhol
     Delete button on edit page for Record, Category, Account;
     *Split record;
 
-Vova:
-    add record button on main page;
-    history by interval;
-    last 5 records on main page;
-
 Dastan:
-    *connect to this month expenditures;
 
 *Set month limits with notification if exceeds;
 *Get current exchange rates from API, and show total amount;
