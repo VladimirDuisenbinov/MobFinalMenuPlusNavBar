@@ -76,6 +76,14 @@ public class HistoryFragment extends Fragment implements View.OnClickListener {
         return v;
     }
 
+    @Override
+    public void onResume() {
+        super.onResume();
+
+        Log.e(TAG, "on resume");
+        filterBtn.performClick();
+    }
+
     public void onStart() {
         super.onStart();
 
@@ -127,7 +135,6 @@ public class HistoryFragment extends Fragment implements View.OnClickListener {
         );
         recyclerView.setAdapter(recyclerHistoryViewAdapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(this.getContext()));
-
     }
 
     @Override
