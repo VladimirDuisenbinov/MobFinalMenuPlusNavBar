@@ -65,7 +65,6 @@ public class RecyclerHistoryViewAdapter extends RecyclerView.Adapter<RecyclerHis
             holder.cardRecyclerCash.setTextColor(0xBBFF0000);
         }
 
-
         holder.cardRecyclerLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

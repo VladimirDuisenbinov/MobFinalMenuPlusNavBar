@@ -47,6 +47,7 @@
                     android:text="Total Bank"
                     android:textColor="#FFFFFF"
                     android:textSize="20sp"
+                    android:fontFamily="casual"
                     android:layout_centerHorizontal="true"
                     >
                 </TextView>
@@ -84,6 +85,7 @@
                     android:text="Expenditures"
                     android:textColor="#FFFFFF"
                     android:textSize="20sp"
+                    android:fontFamily="casual"
                     android:layout_centerHorizontal="true"
                     >
                 </TextView>
@@ -133,6 +135,7 @@
                             android:gravity="center"
                             android:textColor="#FFFFFF"
                             android:textSize="20sp"
+                            android:fontFamily="casual"
                             app:layout_constraintEnd_toEndOf="parent"
                             app:layout_constraintStart_toStartOf="parent" />
 
@@ -146,7 +149,8 @@
                             android:paddingBottom="10dp"
                             android:text="Apartment: 25 000T\nElectricity: 10 000T\nWater: 10 000T"
                             android:textColor="#FFFFFF"
-                            android:textSize="15sp" />
+                            android:textSize="15sp"
+                            android:fontFamily="casual"/>
 
                     </RelativeLayout>
 
@@ -167,6 +171,7 @@
                         android:gravity="center"
                         android:textColor="#FFFFFF"
                         android:textSize="20sp"
+                        android:fontFamily="casual"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent" />
 
@@ -179,7 +184,9 @@
                         android:paddingBottom="10dp"
                         android:gravity="center"
                         android:textColor="#FFFFFF"
-                        android:textSize="15sp" />
+                        android:textSize="15sp"
+                        android:fontFamily="casual"
+                        />
 
                     </RelativeLayout>
 
@@ -218,6 +225,7 @@
                         android:text="Last Records"
                         android:textColor="#FFFFFF"
                         android:textSize="20sp"
+                        android:fontFamily="casual"
                         android:layout_centerHorizontal="true">
 
                     </TextView>
@@ -238,9 +246,10 @@
 
                 <Button
                     android:id="@+id/add_record_btn"
-                    android:layout_marginTop="20dp"
+                    android:layout_marginTop="10dp"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:fontFamily="casual"
                     android:text="Add Record"/>
 
             </LinearLayout>

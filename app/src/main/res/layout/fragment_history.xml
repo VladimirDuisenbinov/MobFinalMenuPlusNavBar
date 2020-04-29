@@ -35,6 +35,7 @@
                     android:layout_marginLeft="20dp"
                     android:id="@+id/start_date_btn"
                     android:layout_width="130dp"
+                    android:fontFamily="casual"
                     android:layout_height="wrap_content"
                     android:text="START date"/>
 
@@ -60,6 +61,7 @@
                     android:layout_marginLeft="20dp"
                     android:id="@+id/end_date_btn"
                     android:layout_width="130dp"
+                    android:fontFamily="casual"
                     android:layout_height="wrap_content"
                     android:text="END DATE"/>
 
@@ -77,6 +79,7 @@
 
             <Button
                 android:id="@+id/filter_btn"
+                android:fontFamily="casual"
                 android:layout_marginTop="20dp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
