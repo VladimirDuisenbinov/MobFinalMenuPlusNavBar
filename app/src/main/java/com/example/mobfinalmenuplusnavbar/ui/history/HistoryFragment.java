@@ -76,15 +76,6 @@ public class HistoryFragment extends Fragment implements View.OnClickListener {
         return v;
     }
 
-    @Override
-    public void onResume() {
-        super.onResume();
-
-        if (startDate.getText().toString().length() > 0 && endDate.getText().toString().length() > 0) {
-            filterBtn.performClick();
-        }
-    }
-
     public void onStart() {
         super.onStart();
 
