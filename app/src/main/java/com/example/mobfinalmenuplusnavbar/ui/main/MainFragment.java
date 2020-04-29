@@ -32,7 +32,7 @@ import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 
-public class MainFragment extends Fragment implements View.OnClickListener {
+public class MainFragment extends Fragment {
 
     private static final String TAG = "MainFragment";
 
@@ -44,45 +44,12 @@ public class MainFragment extends Fragment implements View.OnClickListener {
     private ArrayList<String> lastRecordsRecyclerCategories = new ArrayList<>();
     private ArrayList<String> lastRecordsRecyclerCashes = new ArrayList<>();
 
-    private Button startDateBtn,endDateBtn, filterBtn;
-    private TextView startDate, endDate;
-    private Context context;
 
     @RequiresApi(api = Build.VERSION_CODES.KITKAT)
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
 
         View v = inflater.inflate(R.layout.fragment_main, container, false);
-        startDateBtn = v.findViewById(R.id.start_date_btn);
-        startDateBtn.setOnClickListener(this);
-        startDate = v.findViewById(R.id.start_text);
-        Calendar calendar = Calendar.getInstance();
-        calendar.add(Calendar.MONTH, -1);
-        Date date = calendar.getTime();
-        startDate.setText(new SimpleDateFormat("yyyy-MM-dd", Locale.US ).format(date));
-        endDateBtn = v.findViewById(R.id.end_date_btn);
-        endDateBtn.setOnClickListener(this);
-        endDate = v.findViewById(R.id.end_text);
-        endDate.setText(new SimpleDateFormat("yyyy-MM-dd", Locale.US).format(new Date()));
-        filterBtn = v.findViewById(R.id.filter_btn);
-
-        filterBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (startDate.getText().length()!= 0
-                        && endDate.getText().length()!= 0 ){
-                    String start_date = startDate.getText().toString();
-                    String end_date = endDate.getText().toString();
-                    List<Record> records = Record.filter(Record.DATE_COLUMN+" between ? and ?", new String[]{ start_date, end_date + "z" });
-                    //update RecyclerView by notifiying adapter;
-//                    TODO: show records in recycler view
-                }
-            }
-        });
-
-
-
-
         return v;
     }
 
@@ -194,34 +161,5 @@ public class MainFragment extends Fragment implements View.OnClickListener {
         recyclerView.setLayoutManager(new LinearLayoutManager(this.getContext()));
     }
 
-    @Override
-    public void onClick(final View v) {
-        final Calendar c = Calendar.getInstance();
-        int mYear = c.get(Calendar.YEAR);
-        int mMonth = c.get(Calendar.MONTH);
-        int mDay = c.get(Calendar.DAY_OF_MONTH);
 
-
-        DatePickerDialog datePickerDialog = new DatePickerDialog(this.getContext(),
-                new DatePickerDialog.OnDateSetListener() {
-
-                    @Override
-                    public void onDateSet(DatePicker view, int year,
-                                          int monthOfYear, int dayOfMonth) {
-//                            String d = dayOfMonth < 10 ? "0" + dayOfMonth : ""+dayOfMonth;
-//                            String m = monthOfYear < 10 ? "0" + monthOfYear : ""+monthOfYear;
-
-//                            date = d + "/" + m + "/" + year;
-                        Calendar newDate = Calendar.getInstance();
-                        newDate.set(year, monthOfYear, dayOfMonth);
-                        DateFormat df = new SimpleDateFormat(DBHelper.DATE_FORMAT, Locale.US);
-                        if (v == startDateBtn){
-                            startDate.setText(df.format(newDate.getTime()));
-                        }else if (v == endDateBtn){
-                            endDate.setText(df.format(newDate.getTime()));
-                        }
-                    }
-                }, mYear, mMonth, mDay);
-        datePickerDialog.show();
-    }
 }
