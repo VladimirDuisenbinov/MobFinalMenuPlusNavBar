@@ -19,6 +19,7 @@ import java.util.ArrayList;
 public class RecyclerHistoryViewAdapter extends RecyclerView.Adapter<RecyclerHistoryViewAdapter.ViewHolder>{
 
     private static final String TAG = "RecyclerHistoryAdapter";
+    private ArrayList<Integer> cardRecyclerIds = new ArrayList<>();
     private ArrayList<Integer> cardRecyclerLogos = new ArrayList<>();
     private ArrayList<String> cardRecyclerBankNames = new ArrayList<>();
     private ArrayList<String> cardRecyclerCashes = new ArrayList<>();
@@ -27,11 +28,13 @@ public class RecyclerHistoryViewAdapter extends RecyclerView.Adapter<RecyclerHis
 
     public RecyclerHistoryViewAdapter(
             Context cardRecyclerContext,
+            ArrayList<Integer> cardRecyclerIds,
             ArrayList<Integer> cardRecyclerLogos,
             ArrayList<String> cardRecyclerBankNames,
             ArrayList<String> cardRecyclerCashes,
             ArrayList<String> cardRecyclerDates
     ) {
+        this.cardRecyclerIds = cardRecyclerIds;
         this.cardRecyclerContext = cardRecyclerContext;
         this.cardRecyclerLogos = cardRecyclerLogos;
         this.cardRecyclerBankNames = cardRecyclerBankNames;
@@ -66,7 +69,7 @@ public class RecyclerHistoryViewAdapter extends RecyclerView.Adapter<RecyclerHis
         holder.cardRecyclerLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Log.d(TAG, "onClick: clicked on: " + cardRecyclerCashes.get(position).contains("+"));
+                Log.d(TAG, "LAST RECORDS: clicked on: " + String.valueOf(cardRecyclerIds.get(position)));
             }
         });
     }

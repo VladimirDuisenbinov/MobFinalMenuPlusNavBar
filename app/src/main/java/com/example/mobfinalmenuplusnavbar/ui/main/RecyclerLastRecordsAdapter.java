@@ -19,6 +19,7 @@ import java.util.ArrayList;
 public class RecyclerLastRecordsAdapter extends RecyclerView.Adapter<RecyclerLastRecordsAdapter.ViewHolder>{
 
     private static final String TAG = "RecyclerLastRecordsAdapter";
+    private ArrayList<Integer> lastRecordsRecyclerIds = new ArrayList<>();
     private ArrayList<Integer> lastRecordsRecyclerLogos = new ArrayList<>();
     private ArrayList<String> lastRecordsRecyclerCategories = new ArrayList<>();
     private ArrayList<String> lastRecordsRecyclerCashes = new ArrayList<>();
@@ -26,10 +27,12 @@ public class RecyclerLastRecordsAdapter extends RecyclerView.Adapter<RecyclerLas
 
     public RecyclerLastRecordsAdapter(
             Context lastRecordsRecyclerContext,
+            ArrayList<Integer> lastRecordsRecyclerIds,
             ArrayList<Integer> lastRecordsRecyclerLogos,
             ArrayList<String> lastRecordsRecyclerCategories,
             ArrayList<String> lastRecordsRecyclerCashes
     ) {
+        this.lastRecordsRecyclerIds = lastRecordsRecyclerIds;
         this.lastRecordsRecyclerContext = lastRecordsRecyclerContext;
         this.lastRecordsRecyclerLogos = lastRecordsRecyclerLogos;
         this.lastRecordsRecyclerCategories = lastRecordsRecyclerCategories;
@@ -61,7 +64,7 @@ public class RecyclerLastRecordsAdapter extends RecyclerView.Adapter<RecyclerLas
         holder.lastRecordsRecyclerLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Log.d(TAG, "onClick: clicked on: " + lastRecordsRecyclerCashes.get(position).contains("+"));
+                Log.d(TAG, "LAST RECORDS: clicked on: " + String.valueOf(lastRecordsRecyclerIds.get(position)));
             }
         });
     }

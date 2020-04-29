@@ -33,6 +33,7 @@ public class HistoryFragment extends Fragment implements View.OnClickListener {
 
     private static final String TAG = "HistoryFragment";
 
+    private ArrayList<Integer> cardRecyclerIds = new ArrayList<>();
     private ArrayList<Integer> cardRecyclerLogos = new ArrayList<>();
     private ArrayList<String> cardRecyclerBankNames = new ArrayList<>();
     private ArrayList<String> cardRecyclerCashes = new ArrayList<>();
@@ -89,6 +90,8 @@ public class HistoryFragment extends Fragment implements View.OnClickListener {
     public void initCards() {
         Log.d(TAG, "initCards");
 
+        // cardRecyclerIds.add(id);
+
         cardRecyclerLogos.add(R.drawable.record_base_icon);
         cardRecyclerCashes.add("+80 000 T");
         cardRecyclerBankNames.add("Salary");
@@ -127,7 +130,8 @@ public class HistoryFragment extends Fragment implements View.OnClickListener {
         RecyclerView recyclerView = requireView().findViewById(R.id.lastRecordsRecyclerView);
         recyclerView.setNestedScrollingEnabled(false);
         RecyclerHistoryViewAdapter recyclerHistoryViewAdapter = new RecyclerHistoryViewAdapter(
-                this.getContext(), cardRecyclerLogos, cardRecyclerBankNames,
+                this.getContext(), cardRecyclerIds,
+                cardRecyclerLogos, cardRecyclerBankNames,
                 cardRecyclerCashes, cardRecyclerDates
         );
         recyclerView.setAdapter(recyclerHistoryViewAdapter);

@@ -38,10 +38,12 @@ public class MainFragment extends Fragment {
 
     private static final String TAG = "MainFragment";
 
+    private ArrayList<Integer> cardRecyclerIds = new ArrayList<>();
     private ArrayList<Integer> cardRecyclerLogos = new ArrayList<>();
     private ArrayList<String> cardRecyclerBankNames = new ArrayList<>();
     private ArrayList<String> cardRecyclerCashes = new ArrayList<>();
 
+    private ArrayList<Integer> lastRecordsRecyclerIds = new ArrayList<>();
     private ArrayList<Integer> lastRecordsRecyclerLogos = new ArrayList<>();
     private ArrayList<String> lastRecordsRecyclerCategories = new ArrayList<>();
     private ArrayList<String> lastRecordsRecyclerCashes = new ArrayList<>();
@@ -111,6 +113,7 @@ public class MainFragment extends Fragment {
         cardRecyclerCashes.clear();
 
         for (Account account: accounts){
+            // cardRecyclerIds.add(account.getId());
             cardRecyclerLogos.add(account.getIcon());
             cardRecyclerBankNames.add(account.getName());
             cardRecyclerCashes.add(account.getAmount() + account.getCurrency());
@@ -140,13 +143,14 @@ public class MainFragment extends Fragment {
     }
 
     public void initLastRecords() {
-        lastRecordsRecyclerLogos.add(R.drawable.jusan);
-        lastRecordsRecyclerCategories.add("Jusan Bank");
-        lastRecordsRecyclerCashes.add("50 000 T");
+        // lastRecordsRecyclerIds.add(id);
+        lastRecordsRecyclerLogos.add(R.drawable.ic_debts);
+        lastRecordsRecyclerCategories.add("Debts");
+        lastRecordsRecyclerCashes.add("+50 000 T");
 
-        lastRecordsRecyclerLogos.add(R.drawable.jusan);
-        lastRecordsRecyclerCategories.add("Jusan Bank");
-        lastRecordsRecyclerCashes.add("50 000 T");
+        lastRecordsRecyclerLogos.add(R.drawable.ic_food);
+        lastRecordsRecyclerCategories.add("Food");
+        lastRecordsRecyclerCashes.add("-20 000 T");
 
         initLastRecordsRecyclerView();
     }
@@ -158,6 +162,7 @@ public class MainFragment extends Fragment {
         recyclerView.setNestedScrollingEnabled(false);
         RecyclerMainViewAdapter recyclerMainViewAdapter = new RecyclerMainViewAdapter(
                 this.getContext(),
+                cardRecyclerIds,
                 cardRecyclerLogos,
                 cardRecyclerBankNames,
                 cardRecyclerCashes
@@ -172,6 +177,7 @@ public class MainFragment extends Fragment {
         recyclerView.setNestedScrollingEnabled(false);
         RecyclerLastRecordsAdapter recyclerLastRecordsAdapter = new RecyclerLastRecordsAdapter(
                 this.getContext(),
+                lastRecordsRecyclerIds,
                 lastRecordsRecyclerLogos,
                 lastRecordsRecyclerCategories,
                 lastRecordsRecyclerCashes

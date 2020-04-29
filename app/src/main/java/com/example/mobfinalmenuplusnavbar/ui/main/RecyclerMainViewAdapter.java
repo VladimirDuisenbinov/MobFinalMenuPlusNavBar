@@ -17,6 +17,7 @@ import java.util.ArrayList;
 public class RecyclerMainViewAdapter extends RecyclerView.Adapter<RecyclerMainViewAdapter.ViewHolder> {
 
     private static final String TAG = "RecyclerViewAdapter";
+    private ArrayList<Integer> cardRecyclerIds = new ArrayList<>();
     private ArrayList<Integer> cardRecyclerLogos = new ArrayList<>();
     private ArrayList<String> cardRecyclerBankNames = new ArrayList<>();
     private ArrayList<String> cardRecyclerCashes = new ArrayList<>();
@@ -24,10 +25,12 @@ public class RecyclerMainViewAdapter extends RecyclerView.Adapter<RecyclerMainVi
 
     public RecyclerMainViewAdapter(
             Context cardRecyclerContext,
+            ArrayList<Integer> cardRecyclerIds,
             ArrayList<Integer> cardRecyclerLogos,
             ArrayList<String> cardRecyclerBankNames,
             ArrayList<String> cardRecyclerCashes
     ) {
+        this.cardRecyclerIds = cardRecyclerIds;
         this.cardRecyclerContext = cardRecyclerContext;
         this.cardRecyclerLogos = cardRecyclerLogos;
         this.cardRecyclerBankNames = cardRecyclerBankNames;
@@ -53,7 +56,7 @@ public class RecyclerMainViewAdapter extends RecyclerView.Adapter<RecyclerMainVi
         holder.cardRecyclerLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Log.d(TAG, "onClick: clicked on: " + cardRecyclerBankNames.get(position));
+                Log.d(TAG, "MAIN ACCOUNTS: clicked on: " + String.valueOf(cardRecyclerIds.get(position)));
             }
         });
 
