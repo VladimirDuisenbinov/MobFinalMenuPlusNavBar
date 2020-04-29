@@ -132,6 +132,13 @@ public class MainFragment extends Fragment {
 
         List<Record> records = Record.filter(Record.DATE_COLUMN+" > ?", new String[]{ new SimpleDateFormat(DBHelper.DATE_FORMAT, Locale.US).format(new Date()) });
 
+        if (records.size() <= 0) {
+            lastRecordsRecyclerIds.add(Integer.toUnsignedLong(0));
+            lastRecordsRecyclerLogos.add(R.drawable.ic_history);
+            lastRecordsRecyclerCashes.add("No Last Records");
+            lastRecordsRecyclerCategories.add("");
+        }
+
         for (Record record: records){
             lastRecordsRecyclerIds.add(record.getId());
             lastRecordsRecyclerLogos.add(Category.get(record.getCategory_id()).getIcon());

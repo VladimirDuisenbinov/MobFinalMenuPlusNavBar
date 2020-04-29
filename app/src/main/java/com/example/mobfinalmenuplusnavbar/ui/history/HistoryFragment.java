@@ -95,6 +95,16 @@ public class HistoryFragment extends Fragment implements View.OnClickListener {
         cardRecyclerCashes = new ArrayList<>();
         cardRecyclerDates = new ArrayList<>();
 
+        Log.d(TAG, Integer.toString(records.size()));
+
+        if (records.size() <= 0) {
+            cardRecyclerIds.add(Integer.toUnsignedLong(0));
+            cardRecyclerLogos.add(R.drawable.ic_history);
+            cardRecyclerCashes.add("No Last Records");
+            cardRecyclerBankNames.add("");
+            cardRecyclerDates.add("");
+        }
+
         for (Record record: records){
             cardRecyclerIds.add(record.getId());
             cardRecyclerLogos.add(Category.get(record.getCategory_id()).getIcon());
