@@ -13,9 +13,11 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import com.example.mobfinalmenuplusnavbar.R;
+import com.example.mobfinalmenuplusnavbar.add_data_fragments.AddRecordFragment;
 import com.example.mobfinalmenuplusnavbar.db.DBHelper;
 import com.example.mobfinalmenuplusnavbar.db.Record;
 
@@ -69,6 +71,8 @@ public class HistoryFragment extends Fragment implements View.OnClickListener {
                 }
             }
         });
+
+
 
 
 

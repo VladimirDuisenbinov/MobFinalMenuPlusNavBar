@@ -16,9 +16,11 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import com.example.mobfinalmenuplusnavbar.R;
+import com.example.mobfinalmenuplusnavbar.add_data_fragments.AddRecordFragment;
 import com.example.mobfinalmenuplusnavbar.db.Account;
 import com.example.mobfinalmenuplusnavbar.db.DBHelper;
 import com.example.mobfinalmenuplusnavbar.db.Record;
@@ -44,12 +46,29 @@ public class MainFragment extends Fragment {
     private ArrayList<String> lastRecordsRecyclerCategories = new ArrayList<>();
     private ArrayList<String> lastRecordsRecyclerCashes = new ArrayList<>();
 
+    private Button addRecordBtn;
+
 
     @RequiresApi(api = Build.VERSION_CODES.KITKAT)
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
 
         View v = inflater.inflate(R.layout.fragment_main, container, false);
+        addRecordBtn = v.findViewById(R.id.add_record_btn);
+
+        addRecordBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                AddRecordFragment addFragment = new AddRecordFragment();
+                FragmentTransaction transaction = getFragmentManager().beginTransaction();
+
+                transaction.replace(R.id.main_container, addFragment, "AddRecFragment");
+                transaction.addToBackStack(null);
+
+                transaction.commit();
+            }
+        });
+
         return v;
     }
 
