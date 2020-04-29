@@ -80,8 +80,9 @@ public class HistoryFragment extends Fragment implements View.OnClickListener {
     public void onResume() {
         super.onResume();
 
-        Log.e(TAG, "on resume");
-        filterBtn.performClick();
+        if (startDate.getText().toString().length() > 0 && endDate.getText().toString().length() > 0) {
+            filterBtn.performClick();
+        }
     }
 
     public void onStart() {
