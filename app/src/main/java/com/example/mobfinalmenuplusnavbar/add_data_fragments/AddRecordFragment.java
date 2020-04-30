@@ -7,6 +7,7 @@ import android.content.Context;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -31,6 +32,7 @@ import com.example.mobfinalmenuplusnavbar.db.DBHelper;
 import com.example.mobfinalmenuplusnavbar.db.DBValidateDataException;
 import com.example.mobfinalmenuplusnavbar.db.Record;
 import com.example.mobfinalmenuplusnavbar.db.Icon;
+import com.example.mobfinalmenuplusnavbar.ui.history.HistoryFragment;
 import com.example.mobfinalmenuplusnavbar.ui.main.MainFragment;
 import com.google.android.material.switchmaterial.SwitchMaterial;
 import com.google.android.material.textfield.TextInputLayout;
@@ -66,6 +68,7 @@ public class AddRecordFragment extends Fragment implements View.OnClickListener 
 
     public AddRecordFragment(Record updateRecord){
         this.updateRecord = updateRecord;
+        Log.d("AddRecord:", "UpdateRecordFragment: ");
     }
 
 
@@ -129,6 +132,7 @@ public class AddRecordFragment extends Fragment implements View.OnClickListener 
 
         btnDatePicker=(Button)view.findViewById(R.id.btn_date);
         btnTimePicker=(Button)view.findViewById(R.id.btn_time);
+        btnSubmit = view.findViewById(R.id.btn_submit);
         txtDate=(EditText)view.findViewById(R.id.in_date);
         txtDate.addTextChangedListener(new TextWatcher()  {
 
@@ -173,9 +177,9 @@ public class AddRecordFragment extends Fragment implements View.OnClickListener 
             title.getEditText().setText(updateRecord.getTitle());
             subject.getEditText().setText(updateRecord.getSubject());
             description.getEditText().setText(updateRecord.getDescription());
-            amount.getEditText().setText((int) updateRecord.getAmount());
+            amount.getEditText().setText("" +updateRecord.getAmount());
             mandatory.setEnabled(updateRecord.getMandatory() == 1);
-
+            btnSubmit.setText("update record");
             int accIndex = 0;
 
             for (Account account: accounts){
@@ -196,20 +200,21 @@ public class AddRecordFragment extends Fragment implements View.OnClickListener 
 
             spinnerCategories.setSelection(catIndex);
             spinnerAccounts.setSelection(accIndex);
-            String date = updateRecord.getDate();
-            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm");
-            LocalDateTime dateTime = LocalDateTime.parse(date, formatter);
-            txtDate.setText(dateTime.getDayOfMonth() + "/" + dateTime.getMonth() + "/" +
-                    dateTime.getYear());
-            txtTime.setText(dateTime.getHour()+":" + dateTime.getMinute());
+            String dt = updateRecord.getDate();
+            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
+            LocalDateTime dateTime = LocalDateTime.parse(dt, formatter);
+            date = dateTime.getDayOfMonth() + "/" + dateTime.getMonth() + "/" +
+                    dateTime.getYear();
+            txtDate.setText(date);
+            time = dateTime.getHour()+":" + dateTime.getMinute();
+            txtTime.setText(time);
         }
 
 
         btnDatePicker.setOnClickListener(this);
         btnTimePicker.setOnClickListener(this);
-
-        btnSubmit = view.findViewById(R.id.btn_submit);
         btnSubmit.setOnClickListener(this);
+
 
         return view;
     }
@@ -316,10 +321,8 @@ public class AddRecordFragment extends Fragment implements View.OnClickListener 
                 double a = Double.parseDouble(amount.getEditText().getText().toString());
                 int m = mandatory.isChecked() == true ? 1 : 0;
 
-                MainFragment mainFragment = new MainFragment();
                 FragmentTransaction transaction = getFragmentManager().beginTransaction();
 
-                transaction.replace(R.id.main_container,mainFragment, "MainFragment");
 
 
 
@@ -332,6 +335,8 @@ public class AddRecordFragment extends Fragment implements View.OnClickListener 
                     updateRecord.setMandatory(m);
                     try {
                         updateRecord.save();
+                        HistoryFragment historyFragment = new HistoryFragment();
+                        transaction.replace(R.id.history_container,historyFragment, "HistoryFragment");
                         transaction.commit();
                         Toast.makeText(context, "Record was updated successfully",
                                 Toast.LENGTH_SHORT).show();
@@ -344,6 +349,9 @@ public class AddRecordFragment extends Fragment implements View.OnClickListener 
                     Record record = new Record(t,a,d,cat_id,acc_id,m,s,dateTime);
                     try {
                         record.save();
+                        MainFragment mainFragment = new MainFragment();
+
+                        transaction.replace(R.id.main_container,mainFragment, "MainFragment");
                         transaction.commit();
                         Toast.makeText(context, "Record was added successfully",
                                 Toast.LENGTH_SHORT).show();

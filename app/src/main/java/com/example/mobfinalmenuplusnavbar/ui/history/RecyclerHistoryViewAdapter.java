@@ -1,11 +1,17 @@
 package com.example.mobfinalmenuplusnavbar.ui.history;
 
+
+import android.app.Activity;
 import android.content.Context;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentTransaction;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
@@ -13,6 +19,8 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.mobfinalmenuplusnavbar.R;
+import com.example.mobfinalmenuplusnavbar.add_data_fragments.AddRecordFragment;
+import com.example.mobfinalmenuplusnavbar.db.Record;
 
 import java.util.ArrayList;
 
@@ -69,6 +77,17 @@ public class RecyclerHistoryViewAdapter extends RecyclerView.Adapter<RecyclerHis
             @Override
             public void onClick(View v) {
                 Log.d(TAG, "LAST RECORDS: clicked on: " + String.valueOf(cardRecyclerIds.get(position)));
+                Record record = Record.get(cardRecyclerIds.get(position));
+                Log.d(TAG, "onClick: " + record.getCategory_id() + ":" + record.getDate());
+
+                AddRecordFragment addFragment = new AddRecordFragment(record);
+                FragmentTransaction transaction = ((AppCompatActivity)cardRecyclerContext).getSupportFragmentManager().beginTransaction();
+
+                transaction.replace(R.id.history_container, addFragment, "AddRecFragment");
+                transaction.addToBackStack(null);
+
+                transaction.commit();
+
             }
         });
     }
