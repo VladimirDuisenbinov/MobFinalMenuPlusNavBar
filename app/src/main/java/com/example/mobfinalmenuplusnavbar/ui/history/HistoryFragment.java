@@ -115,6 +115,7 @@ public class HistoryFragment extends Fragment implements View.OnClickListener {
             cardRecyclerBankNames.add(Account.get(record.getAccount_id()).getName());
             cardRecyclerDates.add(record.getDate());
         }
+        Log.e(" SIZEEEEE", ""+cardRecyclerIds.size());
 
         initRecyclerView();
     }
