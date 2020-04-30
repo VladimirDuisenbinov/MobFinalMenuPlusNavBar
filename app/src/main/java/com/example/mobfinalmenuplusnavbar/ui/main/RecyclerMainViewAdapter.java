@@ -10,8 +10,15 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.RecyclerView;
 import com.example.mobfinalmenuplusnavbar.R;
+import com.example.mobfinalmenuplusnavbar.add_data_fragments.AddAccountFragment;
+import com.example.mobfinalmenuplusnavbar.add_data_fragments.AddRecordFragment;
+import com.example.mobfinalmenuplusnavbar.db.Account;
+import com.example.mobfinalmenuplusnavbar.db.Record;
+
 import java.util.ArrayList;
 
 public class RecyclerMainViewAdapter extends RecyclerView.Adapter<RecyclerMainViewAdapter.ViewHolder> {
@@ -57,6 +64,16 @@ public class RecyclerMainViewAdapter extends RecyclerView.Adapter<RecyclerMainVi
             @Override
             public void onClick(View v) {
                 Log.d(TAG, "MAIN ACCOUNTS: clicked on: " + String.valueOf(cardRecyclerIds.get(position)));
+
+                Account account = Account.get(cardRecyclerIds.get(position));
+
+                AddAccountFragment addAccount = new AddAccountFragment(account);
+                FragmentTransaction transaction = ((AppCompatActivity)cardRecyclerContext).getSupportFragmentManager().beginTransaction();
+
+                transaction.replace(R.id.main_container, addAccount, "AddAccFragment");
+                transaction.addToBackStack("MainAcc");
+
+                transaction.commit();
             }
         });
 

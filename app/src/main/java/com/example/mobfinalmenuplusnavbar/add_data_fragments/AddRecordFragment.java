@@ -21,6 +21,7 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
 
@@ -201,12 +202,11 @@ public class AddRecordFragment extends Fragment implements View.OnClickListener 
             spinnerCategories.setSelection(catIndex);
             spinnerAccounts.setSelection(accIndex);
             String dt = updateRecord.getDate();
-            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
-            LocalDateTime dateTime = LocalDateTime.parse(dt, formatter);
-            date = dateTime.getDayOfMonth() + "/" + dateTime.getMonth() + "/" +
-                    dateTime.getYear();
+//            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
+//            LocalDateTime dateTime = LocalDateTime.parse(dt, formatter);
+            date = dt.substring(0,10);
             txtDate.setText(date);
-            time = dateTime.getHour()+":" + dateTime.getMinute();
+            time = dt.substring(11);
             txtTime.setText(time);
         }
 
@@ -286,23 +286,7 @@ public class AddRecordFragment extends Fragment implements View.OnClickListener 
             if (time == null){
                 txtTime.setError("Choose Time");
             }
-            if(title.getEditText().getText().length() == 0 ){
-                title.setError("Title can't be empty");
-                title.setErrorEnabled(true);
-            }else{
-                title.setError(null);
-            }
-            if(subject.getEditText().getText().length() == 0 ){
-                subject.setError("Subject can't be empty");
-                subject.setErrorEnabled(true);
-            }else{
-                subject.setError(null);
-            }
-            if(description.getEditText().getText().length() == 0 ){
-                description.setError("Description can't be empty");
-            }else{
-                description.setError(null);
-            }
+
             if(amount.getEditText().getText().length()  == 0 ){
                 amount.setError("Amount can't be empty");
             }else{
@@ -311,13 +295,11 @@ public class AddRecordFragment extends Fragment implements View.OnClickListener 
 
 
 
-            if (title.getEditText().getText().length()!=0 && description.getEditText().getText().length()!=0
-                    && amount.getEditText().getText().length()!=0 && date!=null && time!=null
-                    && subject.getEditText().getText().length()!=0){
+            if (amount.getEditText().getText().length()!=0 && date!=null && time!=null){
                 String dateTime = date + " " + time;
                 String t = title.getEditText().getText().toString();
                 String s = subject.getEditText().getText().toString();
-                String d = description.getEditText().toString();
+                String d = description.getEditText().getText().toString();
                 double a = Double.parseDouble(amount.getEditText().getText().toString());
                 int m = mandatory.isChecked() == true ? 1 : 0;
 
@@ -335,8 +317,20 @@ public class AddRecordFragment extends Fragment implements View.OnClickListener 
                     updateRecord.setMandatory(m);
                     try {
                         updateRecord.save();
-                        HistoryFragment historyFragment = new HistoryFragment();
-                        transaction.replace(R.id.history_container,historyFragment, "HistoryFragment");
+
+                        int index = getFragmentManager().getBackStackEntryCount() - 1;
+                        FragmentManager.BackStackEntry backEntry = getFragmentManager().getBackStackEntryAt(index);
+                        String tag = backEntry.getName();
+                        Log.d("tag", "fragment tag: " + tag);
+                        if (tag.equals("HistRec")){
+                            HistoryFragment historyFragment = new HistoryFragment();
+                            transaction.replace(R.id.history_container,historyFragment, "HistoryFragment");
+                        }else if (tag.equals("LastRec")){
+                            MainFragment mainFragment = new MainFragment();
+                            transaction.replace(R.id.main_container,mainFragment, "MainFragment");
+                        }
+
+
                         transaction.commit();
                         Toast.makeText(context, "Record was updated successfully",
                                 Toast.LENGTH_SHORT).show();
@@ -350,7 +344,6 @@ public class AddRecordFragment extends Fragment implements View.OnClickListener 
                     try {
                         record.save();
                         MainFragment mainFragment = new MainFragment();
-
                         transaction.replace(R.id.main_container,mainFragment, "MainFragment");
                         transaction.commit();
                         Toast.makeText(context, "Record was added successfully",

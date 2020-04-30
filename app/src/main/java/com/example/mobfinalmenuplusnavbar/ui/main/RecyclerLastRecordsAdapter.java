@@ -10,9 +10,13 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.mobfinalmenuplusnavbar.R;
+import com.example.mobfinalmenuplusnavbar.add_data_fragments.AddRecordFragment;
+import com.example.mobfinalmenuplusnavbar.db.Record;
 
 import java.util.ArrayList;
 
@@ -65,6 +69,14 @@ public class RecyclerLastRecordsAdapter extends RecyclerView.Adapter<RecyclerLas
             @Override
             public void onClick(View v) {
                 Log.d(TAG, "LAST RECORDS: clicked on: " + String.valueOf(lastRecordsRecyclerIds.get(position)));
+                Record record = Record.get(lastRecordsRecyclerIds.get(position));
+                AddRecordFragment addFragment = new AddRecordFragment(record);
+                FragmentTransaction transaction = ((AppCompatActivity)lastRecordsRecyclerContext).getSupportFragmentManager().beginTransaction();
+
+                transaction.replace(R.id.main_container, addFragment, "AddRecFragment");
+                transaction.addToBackStack("LastRec");
+
+                transaction.commit();
             }
         });
     }

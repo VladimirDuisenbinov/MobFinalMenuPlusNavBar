@@ -19,7 +19,6 @@ public class SettingsFragment extends Fragment {
 
     private Button addAccountBtn;
     private Button addCategoryBtn;
-    private Button addRecordBtn;
 
 
     public SettingsFragment(){};
@@ -45,14 +44,7 @@ public class SettingsFragment extends Fragment {
                 startActivity(intent);
             }
         });
-        addRecordBtn = view.findViewById(R.id.add_rec_btn);
-        addRecordBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(getActivity(), RecordActivity.class);
-                startActivity(intent);
-            }
-        });
+
         return view;
     }
 }

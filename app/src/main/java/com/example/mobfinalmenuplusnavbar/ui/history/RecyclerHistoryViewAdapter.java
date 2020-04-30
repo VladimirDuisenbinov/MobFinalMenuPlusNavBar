@@ -84,7 +84,7 @@ public class RecyclerHistoryViewAdapter extends RecyclerView.Adapter<RecyclerHis
                 FragmentTransaction transaction = ((AppCompatActivity)cardRecyclerContext).getSupportFragmentManager().beginTransaction();
 
                 transaction.replace(R.id.history_container, addFragment, "AddRecFragment");
-                transaction.addToBackStack(null);
+                transaction.addToBackStack("HistRec");
 
                 transaction.commit();
 

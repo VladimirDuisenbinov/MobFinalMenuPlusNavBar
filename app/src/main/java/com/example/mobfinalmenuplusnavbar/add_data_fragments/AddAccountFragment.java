@@ -13,11 +13,13 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentTransaction;
 
 import com.example.mobfinalmenuplusnavbar.R;
 import com.example.mobfinalmenuplusnavbar.db.Account;
 import com.example.mobfinalmenuplusnavbar.db.DBValidateDataException;
 import com.example.mobfinalmenuplusnavbar.db.Icon;
+import com.example.mobfinalmenuplusnavbar.ui.main.MainFragment;
 import com.google.android.material.textfield.TextInputLayout;
 
 import java.util.ArrayList;
@@ -66,6 +68,7 @@ public class AddAccountFragment extends Fragment implements View.OnClickListener
         spinnerIcon.setAdapter(iconsAdapter);
 
         if (updateAccount!=null){
+            btnSubmit.setText("update account");
             name.getEditText().setText(updateAccount.getName());
             amount.getEditText().setText(""+updateAccount.getAmount());
             spinnerCurrency.setSelection(currencies.indexOf(updateAccount.getCurrency()));
@@ -97,6 +100,8 @@ public class AddAccountFragment extends Fragment implements View.OnClickListener
             String c = (String)spinnerCurrency.getSelectedItem();
             Icon icon = (Icon)spinnerIcon.getSelectedItem();
             int i = icon.getId();
+            FragmentTransaction transaction = getFragmentManager().beginTransaction();
+
 
             if (updateAccount!=null){
                 updateAccount.setName(n);
@@ -107,6 +112,10 @@ public class AddAccountFragment extends Fragment implements View.OnClickListener
                     updateAccount.save();
                     Toast.makeText(context, "Account was updated successfully",
                             Toast.LENGTH_SHORT).show();
+                    MainFragment mainFragment = new MainFragment();
+                    transaction.replace(R.id.main_container,mainFragment, "MainFragment");
+                    transaction.commit();
+
                 } catch (DBValidateDataException e) {
                     e.printStackTrace();
                 }
