@@ -39,7 +39,7 @@ public class MainFragment extends Fragment {
 
     private static final String TAG = "MainFragment";
 
-    private ArrayList<Integer> cardRecyclerIds = new ArrayList<>();
+    private ArrayList<Long> cardRecyclerIds = new ArrayList<>();
     private ArrayList<Integer> cardRecyclerLogos = new ArrayList<>();
     private ArrayList<String> cardRecyclerBankNames = new ArrayList<>();
     private ArrayList<String> cardRecyclerCashes = new ArrayList<>();
@@ -109,12 +109,13 @@ public class MainFragment extends Fragment {
         Log.d(TAG, "initCards");
 
         List<Account> accounts = Account.filter(null, null);
+        cardRecyclerIds.clear();
         cardRecyclerLogos.clear();
         cardRecyclerBankNames.clear();
         cardRecyclerCashes.clear();
 
         for (Account account: accounts){
-            // cardRecyclerIds.add(account.getId());
+            cardRecyclerIds.add(account.getId());
             cardRecyclerLogos.add(account.getIcon());
             cardRecyclerBankNames.add(account.getName());
             cardRecyclerCashes.add(account.getAmount() + account.getCurrency());
@@ -131,7 +132,6 @@ public class MainFragment extends Fragment {
     }
 
     public void initLastRecords() {
-        // lastRecordsRecyclerIds.add(id);
         lastRecordsRecyclerIds = new ArrayList<>();
         lastRecordsRecyclerLogos = new ArrayList<>();
         lastRecordsRecyclerCategories = new ArrayList<>();
