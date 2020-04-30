@@ -164,7 +164,7 @@ public class Record {
                         DATE_COLUMN
                 },
                 whereClause, whereArgs,
-                null, null, DATE_COLUMN
+                null, null, DATE_COLUMN +" DESC"
         );
         List<Record> res = new ArrayList<>();
         while (cursor.moveToNext()){
