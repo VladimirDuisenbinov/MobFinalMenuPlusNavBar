@@ -1,5 +1,6 @@
 package com.example.mobfinalmenuplusnavbar.add_data_fragments;
 
+import android.app.Activity;
 import android.app.DatePickerDialog;
 import android.app.TimePickerDialog;
 import android.content.Context;
@@ -19,6 +20,7 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentTransaction;
 
 
 import com.example.mobfinalmenuplusnavbar.R;
@@ -29,6 +31,7 @@ import com.example.mobfinalmenuplusnavbar.db.DBHelper;
 import com.example.mobfinalmenuplusnavbar.db.DBValidateDataException;
 import com.example.mobfinalmenuplusnavbar.db.Record;
 import com.example.mobfinalmenuplusnavbar.db.Icon;
+import com.example.mobfinalmenuplusnavbar.ui.main.MainFragment;
 import com.google.android.material.switchmaterial.SwitchMaterial;
 import com.google.android.material.textfield.TextInputLayout;
 
@@ -211,6 +214,8 @@ public class AddRecordFragment extends Fragment implements View.OnClickListener 
         return view;
     }
 
+
+
     @Override
     public void onClick(View v) {
 
@@ -311,6 +316,13 @@ public class AddRecordFragment extends Fragment implements View.OnClickListener 
                 double a = Double.parseDouble(amount.getEditText().getText().toString());
                 int m = mandatory.isChecked() == true ? 1 : 0;
 
+                MainFragment mainFragment = new MainFragment();
+                FragmentTransaction transaction = getFragmentManager().beginTransaction();
+
+                transaction.replace(R.id.main_container,mainFragment, "MainFragment");
+
+
+
                 if (updateRecord!=null){
                     updateRecord.setDate(dateTime);
                     updateRecord.setTitle(t);
@@ -320,6 +332,7 @@ public class AddRecordFragment extends Fragment implements View.OnClickListener 
                     updateRecord.setMandatory(m);
                     try {
                         updateRecord.save();
+                        transaction.commit();
                         Toast.makeText(context, "Record was updated successfully",
                                 Toast.LENGTH_SHORT).show();
                     } catch (DBValidateDataException e) {
@@ -331,6 +344,7 @@ public class AddRecordFragment extends Fragment implements View.OnClickListener 
                     Record record = new Record(t,a,d,cat_id,acc_id,m,s,dateTime);
                     try {
                         record.save();
+                        transaction.commit();
                         Toast.makeText(context, "Record was added successfully",
                                 Toast.LENGTH_SHORT).show();
                     } catch (DBValidateDataException e) {
