@@ -88,7 +88,7 @@ public class MainFragment extends Fragment {
     public void initMonthExpenditures(){
         Calendar c = Calendar.getInstance();   // this takes current date
         c.set(Calendar.DAY_OF_MONTH, 1);
-        DateFormat df = new SimpleDateFormat(DBHelper.DATETIME_FORMAT, Locale.US);
+        DateFormat df = new SimpleDateFormat(DBHelper.DATE_FORMAT, Locale.US);
         List<Pair<String, Double>> mandatory_res = Record.groupByCategories(df.format(c.getTime()), "Z", 1);
         List<Pair<String, Double>> nonmandatory_res = Record.groupByCategories(df.format(c.getTime()), "Z", 0);
         Log.e(" ggg", Record.filter("mandatory = 1", null).toString());
@@ -129,6 +129,7 @@ public class MainFragment extends Fragment {
         super.onResume();
         initCards();
         initLastRecords();
+        initMonthExpenditures();
     }
 
     public void initLastRecords() {
