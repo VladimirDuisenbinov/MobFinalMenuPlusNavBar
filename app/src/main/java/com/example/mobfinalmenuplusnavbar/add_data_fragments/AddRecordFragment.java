@@ -208,6 +208,14 @@ public class AddRecordFragment extends Fragment implements View.OnClickListener 
             txtDate.setText(date);
             time = dt.substring(11);
             txtTime.setText(time);
+        }else{
+            Calendar newDate = Calendar.getInstance();
+            DateFormat df = new SimpleDateFormat(DBHelper.DATE_FORMAT, Locale.US);
+            date = df.format(newDate.getTime());
+            txtDate.setText(date);
+            df = new SimpleDateFormat(DBHelper.TIME_FORMAT, Locale.US);
+            time = df.format(newDate.getTime());
+            txtTime.setText(time);
         }
 
 

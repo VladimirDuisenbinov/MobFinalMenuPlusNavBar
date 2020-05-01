@@ -75,13 +75,8 @@ public class AddCategoryFragment extends Fragment implements View.OnClickListene
         }else{
             name.setError(null);
         }
-        if(description.getEditText().getText().length() == 0 ){
-            description.setError("Description can't be empty");
-        }else{
-            description.setError(null);
-        }
 
-        if (name.getEditText().getText().length()!=0 && description.getEditText().getText().length()!=0){
+        if (name.getEditText().getText().length()!=0 ){
 
 
             String n = name.getEditText().getText().toString();
