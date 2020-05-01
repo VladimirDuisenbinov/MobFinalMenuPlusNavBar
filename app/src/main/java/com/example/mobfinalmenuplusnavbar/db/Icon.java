@@ -18,6 +18,10 @@ public class Icon {
 
     public static ArrayList<Icon> getCategoryIcons(){
         categoryIcons = new ArrayList();
+        categoryIcons.add(new Icon("record_base_icon", R.drawable.record_base_icon));
+        categoryIcons.add(new Icon("debt_icon", R.drawable.category_debt_icon));
+        categoryIcons.add(new Icon("fix_icon", R.drawable.category_fix_icon));
+        categoryIcons.add(new Icon("transaction_icon", R.drawable.category_transaction_icon));
         categoryIcons.add(new Icon("sport_icon", R.drawable.ic_sport));
         categoryIcons.add(new Icon("travel_icon", R.drawable.ic_travel));
         categoryIcons.add(new Icon("edu_icon", R.drawable.ic_education));
@@ -69,12 +73,14 @@ public class Icon {
 
     public static ArrayList<Icon> getAccountIcons(){
         accountIcons = new ArrayList();
+        accountIcons.add(new Icon("Base", R.drawable.account_base_icon));
         accountIcons.add(new Icon("Eurasian", R.drawable.eurasian));
         accountIcons.add(new Icon("Halyk", R.drawable.halyk));
         accountIcons.add(new Icon("Jysan", R.drawable.jusan));
         accountIcons.add(new Icon("Kaspi", R.drawable.kaspi));
         accountIcons.add(new Icon("Qazkom", R.drawable.qazkom));
         accountIcons.add(new Icon("Sber", R.drawable.sberbank));
+
 
         return accountIcons;
     }
