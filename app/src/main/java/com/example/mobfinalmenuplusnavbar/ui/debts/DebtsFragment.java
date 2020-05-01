@@ -1,11 +1,13 @@
 package com.example.mobfinalmenuplusnavbar.ui.debts;
 
+import android.os.Build;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
 import androidx.annotation.NonNull;
+import androidx.annotation.RequiresApi;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
@@ -52,6 +54,19 @@ public class DebtsFragment extends Fragment {
             }
         });
         return view;
+    }
+
+    @RequiresApi(api = Build.VERSION_CODES.KITKAT)
+    @Override
+    public void onStart() {
+        super.onStart();
+        replaceFragment(new ActiveDebtsFragment());
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        replaceFragment(new ActiveDebtsFragment());
     }
 
     private void replaceFragment(Fragment fragment) {
