@@ -12,15 +12,19 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentTransaction;
 
 
 import com.example.mobfinalmenuplusnavbar.R;
 import com.example.mobfinalmenuplusnavbar.db.Category;
 import com.example.mobfinalmenuplusnavbar.db.DBValidateDataException;
 import com.example.mobfinalmenuplusnavbar.db.Icon;
+import com.example.mobfinalmenuplusnavbar.ui.main.MainFragment;
+import com.example.mobfinalmenuplusnavbar.ui.settings.SettingsFragment;
 import com.google.android.material.textfield.TextInputLayout;
 
 import java.util.ArrayList;
+import java.util.Set;
 
 public class AddCategoryFragment extends Fragment implements View.OnClickListener {
 
@@ -101,6 +105,10 @@ public class AddCategoryFragment extends Fragment implements View.OnClickListene
                     category.save();
                     Toast.makeText(context, "Category was added successfully",
                             Toast.LENGTH_SHORT).show();
+                    SettingsFragment settingsFragment = new SettingsFragment();
+                    FragmentTransaction transaction = getFragmentManager().beginTransaction();
+                    transaction.replace(R.id.main_container, settingsFragment, "SettingsFragment");
+                    transaction.commit();
                 } catch (DBValidateDataException e) {
                     e.printStackTrace();
                 }

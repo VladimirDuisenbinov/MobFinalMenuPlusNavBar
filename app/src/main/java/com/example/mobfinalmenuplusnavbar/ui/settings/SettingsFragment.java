@@ -11,8 +11,12 @@ import android.widget.Button;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentTransaction;
 
 import com.example.mobfinalmenuplusnavbar.R;
+import com.example.mobfinalmenuplusnavbar.add_data_fragments.AddAccountFragment;
+import com.example.mobfinalmenuplusnavbar.add_data_fragments.AddCategoryFragment;
+import com.example.mobfinalmenuplusnavbar.add_data_fragments.AddRecordFragment;
 import com.example.mobfinalmenuplusnavbar.db.Category;
 
 public class SettingsFragment extends Fragment {
@@ -32,16 +36,28 @@ public class SettingsFragment extends Fragment {
         addAccountBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(getActivity(), AccountActivity.class);
-                startActivity(intent);
+//                Intent intent = new Intent(getActivity(), AccountActivity.class);
+//                startActivity(intent);
+                AddAccountFragment addFragment = new AddAccountFragment();
+                FragmentTransaction transaction = getFragmentManager().beginTransaction();
+
+                transaction.replace(R.id.main_container, addFragment, "AddAccount");
+                transaction.addToBackStack(null);
+
+                transaction.commit();
             }
         });
         addCategoryBtn = view.findViewById(R.id.add_cat_btn);
         addCategoryBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(getActivity(), CategoryActivity.class);
-                startActivity(intent);
+                AddCategoryFragment addFragment = new AddCategoryFragment();
+                FragmentTransaction transaction = getFragmentManager().beginTransaction();
+
+                transaction.replace(R.id.main_container, addFragment, "AddAccount");
+                transaction.addToBackStack(null);
+
+                transaction.commit();
             }
         });
 

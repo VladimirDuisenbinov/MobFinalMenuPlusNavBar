@@ -20,6 +20,7 @@ import com.example.mobfinalmenuplusnavbar.db.Account;
 import com.example.mobfinalmenuplusnavbar.db.DBValidateDataException;
 import com.example.mobfinalmenuplusnavbar.db.Icon;
 import com.example.mobfinalmenuplusnavbar.ui.main.MainFragment;
+import com.example.mobfinalmenuplusnavbar.ui.settings.SettingsFragment;
 import com.google.android.material.textfield.TextInputLayout;
 
 import java.util.ArrayList;
@@ -113,7 +114,7 @@ public class AddAccountFragment extends Fragment implements View.OnClickListener
                     Toast.makeText(context, "Account was updated successfully",
                             Toast.LENGTH_SHORT).show();
                     MainFragment mainFragment = new MainFragment();
-                    transaction.replace(R.id.main_container,mainFragment, "MainFragment");
+                    transaction.replace(R.id.main_container,mainFragment, "SettingsFragment");
                     transaction.commit();
 
                 } catch (DBValidateDataException e) {
@@ -125,6 +126,9 @@ public class AddAccountFragment extends Fragment implements View.OnClickListener
                     account.save();
                     Toast.makeText(context, "Account was added successfully",
                             Toast.LENGTH_SHORT).show();
+                    SettingsFragment settingsFragment = new SettingsFragment();
+                    transaction.replace(R.id.main_container, settingsFragment, "SettingsFragment");
+                    transaction.commit();
                 } catch (DBValidateDataException e) {
                     e.printStackTrace();
                 }
