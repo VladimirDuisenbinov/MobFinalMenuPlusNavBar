@@ -79,14 +79,14 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             case R.id.nav_debts:
                 viewPager2.setCurrentItem(2);
                 break;
-            case R.id.nav_plan:
+            /*case R.id.nav_plan:
                 viewPager2.setCurrentItem(3);
                 break;
             case R.id.nav_analytics:
                 viewPager2.setCurrentItem(4);
-                break;
+                break;*/
             case R.id.nav_settings:
-                viewPager2.setCurrentItem(5);
+                viewPager2.setCurrentItem(3);
                 break;
         }
         drawer.closeDrawer(GravityCompat.START);

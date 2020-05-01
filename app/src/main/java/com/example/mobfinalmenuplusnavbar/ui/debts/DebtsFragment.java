@@ -38,9 +38,9 @@ public class DebtsFragment extends Fragment {
             public void onTabSelected(TabLayout.Tab tab) {
                 if(tab.getPosition() == 0){
                     replaceFragment(new ActiveDebtsFragment());
-                }else {
+                }/*else {
                     replaceFragment(new ClosedDebtsFragment());
-                }
+                }*/
             }
 
             @Override

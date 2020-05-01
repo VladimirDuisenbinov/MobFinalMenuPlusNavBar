@@ -28,11 +28,11 @@ public class MenusPagerAdapter extends FragmentStateAdapter {
                 return new HistoryFragment();
             case 2:
                 return new DebtsFragment();
-            case 3:
+            /*case 3:
                 return new PlanFragment();
             case 4:
-                return new AnalyticsFragment();
-            case 5:
+                return new AnalyticsFragment();*/
+            case 3:
                 return new SettingsFragment();
         }
         return null;
@@ -40,6 +40,6 @@ public class MenusPagerAdapter extends FragmentStateAdapter {
 
     @Override
     public int getItemCount() {
-        return 6;
+        return 4;
     }
 }

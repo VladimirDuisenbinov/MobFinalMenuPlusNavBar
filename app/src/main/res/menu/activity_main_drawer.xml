@@ -17,14 +17,14 @@
                 android:id="@+id/nav_debts"
                 android:icon="@drawable/ic_debts"
                 android:title="@string/menu_debts"/>
-        <item
+        <!--item
                 android:id="@+id/nav_plan"
                 android:icon="@drawable/ic_plan"
                 android:title="@string/menu_plan"/>
         <item
                 android:id="@+id/nav_analytics"
                 android:icon="@drawable/ic_analytics"
-                android:title="@string/menu_analytics"/>
+                android:title="@string/menu_analytics"/-->
         <item
             android:id="@+id/nav_settings"
             android:icon="@drawable/ic_settings"
